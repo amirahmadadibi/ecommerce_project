@@ -1,4 +1,6 @@
 import 'package:apple_shop/constants/colors.dart';
+import 'package:apple_shop/widgets/banner_slider.dart';
+import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -15,17 +17,133 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: CustomColors.backgroundScreenColor,
         body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 44),
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              itemBuilder: ((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: CategoryHorizontalItemList(),
-                );
-              })),
+            child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: BannerSlider(),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 44, right: 44, bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'دسته‌ بندی',
+                      style: TextStyle(
+                          fontFamily: 'sb',
+                          fontSize: 12,
+                          color: CustomColors.gery),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 44),
+                child: SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      itemBuilder: ((context, index) {
+                        return const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: CategoryHorizontalItemList(),
+                        );
+                      })),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 44, right: 44, bottom: 20),
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/icon_left_categroy.png'),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      'مشاهده همه',
+                      style:
+                          TextStyle(fontFamily: 'sb', color: CustomColors.blue),
+                    ),
+                    const Spacer(),
+                    const Text(
+                      'پرفروش ترین‌ ها',
+                      style: TextStyle(
+                          fontFamily: 'sb',
+                          fontSize: 12,
+                          color: CustomColors.gery),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 44),
+                child: SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      itemBuilder: ((context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: ProductItem(),
+                        );
+                      })),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 44, right: 44, bottom: 20, top: 32),
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/icon_left_categroy.png'),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      'مشاهده همه',
+                      style:
+                          TextStyle(fontFamily: 'sb', color: CustomColors.blue),
+                    ),
+                    const Spacer(),
+                    const Text(
+                      'پربازدید ترین‌ ها',
+                      style: TextStyle(
+                          fontFamily: 'sb',
+                          fontSize: 12,
+                          color: CustomColors.gery),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 44),
+                child: SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      itemBuilder: ((context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: ProductItem(),
+                        );
+                      })),
+                ),
+              ),
+            )
+          ],
         )),
       ),
     );
