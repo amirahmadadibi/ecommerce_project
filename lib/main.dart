@@ -20,15 +20,55 @@ class MyApp extends StatelessWidget {
             child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 44, right: 44, bottom: 32),
+                child: Container(
+                  height: 46,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Image.asset('assets/images/icon_apple_blue.png'),
+                      const Expanded(
+                        child: Text(
+                          'جستجوی محصولات',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontFamily: 'sb',
+                              fontSize: 16,
+                              color: CustomColors.gery),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Image.asset('assets/images/icon_search.png'),
+                      const SizedBox(
+                        width: 16,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
               child: BannerSlider(),
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.only(left: 44, right: 44, bottom: 20),
+                padding: const EdgeInsets.only(
+                    left: 44, right: 44, bottom: 20, top: 32),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
+                    Text(
                       'دسته‌ بندی',
                       style: TextStyle(
                           fontFamily: 'sb',
