@@ -1,6 +1,7 @@
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/screens/category_screen.dart';
 import 'package:apple_shop/screens/home_screen.dart';
+import 'package:apple_shop/screens/product_list_screen.dart';
 import 'package:apple_shop/widgets/banner_slider.dart';
 import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CategoryScreen(),
+      home: ProductListScreen(),
     );
   }
 }
