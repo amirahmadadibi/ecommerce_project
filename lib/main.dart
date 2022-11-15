@@ -4,6 +4,7 @@ import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/screens/category_screen.dart';
 import 'package:apple_shop/screens/home_screen.dart';
 import 'package:apple_shop/screens/product_list_screen.dart';
+import 'package:apple_shop/screens/profile_screen.dart';
 import 'package:apple_shop/widgets/banner_slider.dart';
 import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(),
         body: IndexedStack(
           index: selectedBottomNavigationIndex,
           children: getScreens(),
@@ -101,12 +101,12 @@ class _MyAppState extends State<MyApp> {
                     ),
                     label: 'دسته بندی'),
                 BottomNavigationBarItem(
-                    icon: Image.asset('assets/images/icon_profile.png'),
+                    icon: Image.asset('assets/images/icon_home.png'),
                     activeIcon: Padding(
                       padding: const EdgeInsets.only(bottom: 3),
                       child: Container(
-                        child: Image.asset(
-                            'assets/images/icon_profile_active.png'),
+                        child:
+                            Image.asset('assets/images/icon_home_active.png'),
                         decoration: const BoxDecoration(boxShadow: [
                           BoxShadow(
                               color: CustomColors.blue,
@@ -116,7 +116,7 @@ class _MyAppState extends State<MyApp> {
                         ]),
                       ),
                     ),
-                    label: 'حساب کاربری'),
+                    label: 'خانه'),
               ],
             ),
           ),
@@ -127,10 +127,10 @@ class _MyAppState extends State<MyApp> {
 
   List<Widget> getScreens() {
     return <Widget>[
-      HomeScreen(),
+      ProfileScreen(),
       CategoryScreen(),
       ProductListScreen(),
-      CategoryScreen()
+      HomeScreen()
     ];
   }
 }
