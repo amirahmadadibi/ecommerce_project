@@ -74,33 +74,39 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              'assets/images/icon_star.png',
-                            ),
-                            const Text(
-                              '۴.۶',
-                              style: TextStyle(fontFamily: 'sm', fontSize: 12),
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              'assets/images/iphone.png',
-                            ),
-                            Spacer(),
-                            Image.asset(
-                                'assets/images/icon_favorite_deactive.png')
-                          ],
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                'assets/images/icon_star.png',
+                              ),
+                              const Text(
+                                '۴.۶',
+                                style:
+                                    TextStyle(fontFamily: 'sm', fontSize: 12),
+                              ),
+                              Spacer(),
+                              SizedBox(
+                                height: double.infinity,
+                                child: Image.asset(
+                                  'assets/images/iphone.png',
+                                ),
+                              ),
+                              Spacer(),
+                              Image.asset(
+                                  'assets/images/icon_favorite_deactive.png')
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 70,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 44),
+                          padding: const EdgeInsets.only(left: 44, right: 44),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: 10,
@@ -124,6 +130,9 @@ class ProductDetailScreen extends StatelessWidget {
                             }),
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       )
                     ],
                   ),
