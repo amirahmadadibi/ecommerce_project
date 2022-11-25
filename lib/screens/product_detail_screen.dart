@@ -364,6 +364,83 @@ class ProductDetailScreen extends StatelessWidget {
                           color: CustomColors.blue),
                     ),
                     const Spacer(),
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 26,
+                          width: 26,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                        ),
+                        Positioned(
+                          right: 15,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            height: 26,
+                            width: 26,
+                            decoration: const BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 30,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            height: 26,
+                            width: 26,
+                            decoration: const BoxDecoration(
+                              color: Colors.yellow,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 45,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            height: 26,
+                            width: 26,
+                            decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 60,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            height: 26,
+                            width: 26,
+                            decoration: const BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: const Center(
+                                child: Text(
+                              '+10',
+                              style: TextStyle(
+                                  fontFamily: 'sb',
+                                  fontSize: 12,
+                                  color: Colors.white),
+                            )),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     const Text(
                       ': نظرات کاربران',
                       style: TextStyle(fontFamily: 'sm'),
