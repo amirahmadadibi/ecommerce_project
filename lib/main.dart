@@ -28,97 +28,100 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: CardScreen(),
-        // bottomNavigationBar: ClipRRect(
-        //   child: BackdropFilter(
-        //     filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-        //     child: BottomNavigationBar(
-        //       onTap: (int index) {
-        //         setState(() {
-        //           selectedBottomNavigationIndex = index;
-        //         });
-        //       },
-        //       currentIndex: selectedBottomNavigationIndex,
-        //       type: BottomNavigationBarType.fixed,
-        //       backgroundColor: Colors.transparent,
-        //       elevation: 0,
-        //       selectedLabelStyle: const TextStyle(
-        //           fontFamily: 'sb', fontSize: 10, color: CustomColors.blue),
-        //       unselectedLabelStyle: const TextStyle(
-        //           fontFamily: 'sb', fontSize: 10, color: Colors.black),
-        //       items: [
-        //         BottomNavigationBarItem(
-        //             icon: Image.asset('assets/images/icon_profile.png'),
-        //             activeIcon: Padding(
-        //               padding: const EdgeInsets.only(bottom: 3),
-        //               child: Container(
-        //                 child: Image.asset(
-        //                     'assets/images/icon_profile_active.png'),
-        //                 decoration: const BoxDecoration(boxShadow: [
-        //                   BoxShadow(
-        //                       color: CustomColors.blue,
-        //                       blurRadius: 20,
-        //                       spreadRadius: -7,
-        //                       offset: Offset(0.0, 13))
-        //                 ]),
-        //               ),
-        //             ),
-        //             label: 'حساب کاربری'),
-        //         BottomNavigationBarItem(
-        //             icon: Image.asset('assets/images/icon_basket.png'),
-        //             activeIcon: Padding(
-        //               padding: const EdgeInsets.only(bottom: 3),
-        //               child: Container(
-        //                 child:
-        //                     Image.asset('assets/images/icon_basket_active.png'),
-        //                 decoration: const BoxDecoration(boxShadow: [
-        //                   BoxShadow(
-        //                       color: CustomColors.blue,
-        //                       blurRadius: 20,
-        //                       spreadRadius: -7,
-        //                       offset: Offset(0.0, 13))
-        //                 ]),
-        //               ),
-        //             ),
-        //             label: 'سبد خرید'),
-        //         BottomNavigationBarItem(
-        //             icon: Image.asset('assets/images/icon_category.png'),
-        //             activeIcon: Padding(
-        //               padding: const EdgeInsets.only(bottom: 3),
-        //               child: Container(
-        //                 child: Image.asset(
-        //                     'assets/images/icon_category_active.png'),
-        //                 decoration: const BoxDecoration(boxShadow: [
-        //                   BoxShadow(
-        //                       color: CustomColors.blue,
-        //                       blurRadius: 20,
-        //                       spreadRadius: -7,
-        //                       offset: Offset(0.0, 13))
-        //                 ]),
-        //               ),
-        //             ),
-        //             label: 'دسته بندی'),
-        //         BottomNavigationBarItem(
-        //             icon: Image.asset('assets/images/icon_home.png'),
-        //             activeIcon: Padding(
-        //               padding: const EdgeInsets.only(bottom: 3),
-        //               child: Container(
-        //                 child:
-        //                     Image.asset('assets/images/icon_home_active.png'),
-        //                 decoration: const BoxDecoration(boxShadow: [
-        //                   BoxShadow(
-        //                       color: CustomColors.blue,
-        //                       blurRadius: 20,
-        //                       spreadRadius: -7,
-        //                       offset: Offset(0.0, 13))
-        //                 ]),
-        //               ),
-        //             ),
-        //             label: 'خانه'),
-        //       ],
-        //     ),
-        //   ),
-        // ),
+        body: IndexedStack(
+          index: selectedBottomNavigationIndex,
+          children: getScreens(),
+        ),
+        bottomNavigationBar: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+            child: BottomNavigationBar(
+              onTap: (int index) {
+                setState(() {
+                  selectedBottomNavigationIndex = index;
+                });
+              },
+              currentIndex: selectedBottomNavigationIndex,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              selectedLabelStyle: const TextStyle(
+                  fontFamily: 'sb', fontSize: 10, color: CustomColors.blue),
+              unselectedLabelStyle: const TextStyle(
+                  fontFamily: 'sb', fontSize: 10, color: Colors.black),
+              items: [
+                BottomNavigationBarItem(
+                    icon: Image.asset('assets/images/icon_profile.png'),
+                    activeIcon: Padding(
+                      padding: const EdgeInsets.only(bottom: 3),
+                      child: Container(
+                        child: Image.asset(
+                            'assets/images/icon_profile_active.png'),
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(
+                              color: CustomColors.blue,
+                              blurRadius: 20,
+                              spreadRadius: -7,
+                              offset: Offset(0.0, 13))
+                        ]),
+                      ),
+                    ),
+                    label: 'حساب کاربری'),
+                BottomNavigationBarItem(
+                    icon: Image.asset('assets/images/icon_basket.png'),
+                    activeIcon: Padding(
+                      padding: const EdgeInsets.only(bottom: 3),
+                      child: Container(
+                        child:
+                            Image.asset('assets/images/icon_basket_active.png'),
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(
+                              color: CustomColors.blue,
+                              blurRadius: 20,
+                              spreadRadius: -7,
+                              offset: Offset(0.0, 13))
+                        ]),
+                      ),
+                    ),
+                    label: 'سبد خرید'),
+                BottomNavigationBarItem(
+                    icon: Image.asset('assets/images/icon_category.png'),
+                    activeIcon: Padding(
+                      padding: const EdgeInsets.only(bottom: 3),
+                      child: Container(
+                        child: Image.asset(
+                            'assets/images/icon_category_active.png'),
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(
+                              color: CustomColors.blue,
+                              blurRadius: 20,
+                              spreadRadius: -7,
+                              offset: Offset(0.0, 13))
+                        ]),
+                      ),
+                    ),
+                    label: 'دسته بندی'),
+                BottomNavigationBarItem(
+                    icon: Image.asset('assets/images/icon_home.png'),
+                    activeIcon: Padding(
+                      padding: const EdgeInsets.only(bottom: 3),
+                      child: Container(
+                        child:
+                            Image.asset('assets/images/icon_home_active.png'),
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(
+                              color: CustomColors.blue,
+                              blurRadius: 20,
+                              spreadRadius: -7,
+                              offset: Offset(0.0, 13))
+                        ]),
+                      ),
+                    ),
+                    label: 'خانه'),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -126,7 +129,7 @@ class _MyAppState extends State<MyApp> {
   List<Widget> getScreens() {
     return <Widget>[
       ProfileScreen(),
-      CategoryScreen(),
+      CardScreen(),
       ProductListScreen(),
       HomeScreen()
     ];
