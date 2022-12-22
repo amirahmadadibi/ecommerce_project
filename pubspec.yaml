@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   smooth_page_indicator: ^1.0.0+2
+  dotted_line: ^3.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

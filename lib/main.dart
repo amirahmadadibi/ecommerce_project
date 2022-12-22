@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:apple_shop/constants/colors.dart';
+import 'package:apple_shop/screens/card_screen.dart';
 import 'package:apple_shop/screens/category_screen.dart';
 import 'package:apple_shop/screens/home_screen.dart';
 import 'package:apple_shop/screens/product_detail_screen.dart';
 import 'package:apple_shop/screens/product_list_screen.dart';
 import 'package:apple_shop/screens/profile_screen.dart';
-import 'package:apple_shop/widgets/banner_slider.dart';
 import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: ProductDetailScreen(),
+        body: CardScreen(),
         // bottomNavigationBar: ClipRRect(
         //   child: BackdropFilter(
         //     filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
