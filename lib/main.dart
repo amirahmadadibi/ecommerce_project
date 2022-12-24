@@ -11,7 +11,11 @@ import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-void main() {
+import 'data/datasource/authentication_datasource.dart';
+import 'di/di.dart';
+
+void main() async {
+  await getItInit();
   runApp(const MyApp());
 }
 
@@ -28,9 +32,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: IndexedStack(
-          index: selectedBottomNavigationIndex,
-          children: getScreens(),
+        body: SafeArea(
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () {
+                var auth = AuthenticationRemote();
+
+                auth.register('amirahmadadibi800', '12345678', '12345678');
+              },
+              child: Text('click to register'),
+            ),
+          ),
         ),
         bottomNavigationBar: ClipRRect(
           child: BackdropFilter(
