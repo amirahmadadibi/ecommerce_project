@@ -1,6 +1,7 @@
 import 'package:apple_shop/data/datasource/authentication_datasource.dart';
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/util/api_exception.dart';
+import 'package:apple_shop/util/auth_manager.dart';
 import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +31,7 @@ class AuthencticationRepository extends IAuthRepository {
     try {
       String token = await _datasource.login(username, password);
       if (token.isNotEmpty) {
-        _sharedPref.setString('access_token', token);
+        AuthManager.saveToken(token);
         return right('شما وارد شده اید');
       } else {
         return left('خطایی در ورود پیش آمده! ');

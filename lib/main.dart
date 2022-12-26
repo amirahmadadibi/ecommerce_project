@@ -8,6 +8,7 @@ import 'package:apple_shop/screens/home_screen.dart';
 import 'package:apple_shop/screens/product_detail_screen.dart';
 import 'package:apple_shop/screens/product_list_screen.dart';
 import 'package:apple_shop/screens/profile_screen.dart';
+import 'package:apple_shop/util/auth_manager.dart';
 import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -36,21 +37,38 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                // var either = await AuthencticationRepository()
-                //     .login('amirahmad', '12345678');
-                var shared = locator.get<SharedPreferences>();
-                print(shared.getString('access_token'));
-                // either.fold((errorMesssage) {
-                //   print(errorMesssage);
-                // }, (successMessage) {
-                //   print(successMessage);
-                // });
-              },
-              child: Text('click to register'),
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  var either = await AuthencticationRepository()
+                      .login('amirahmad', '12345678');
+                },
+                child: Text('login'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  AuthManager.logout();
+                },
+                child: Text('logout'),
+              ),
+              ValueListenableBuilder(
+                  valueListenable: AuthManager.authChangeNotifire,
+                  builder: ((context, value, child) {
+                    if (value == null || value.isEmpty) {
+                      return const Text(
+                        'شما وارد نشده اید',
+                        style: TextStyle(fontSize: 20),
+                      );
+                    } else {
+                      return const Text(
+                        'شما وارد شده اید',
+                        style: TextStyle(fontSize: 20),
+                      );
+                    }
+                  }))
+            ],
           ),
         ),
         bottomNavigationBar: ClipRRect(
