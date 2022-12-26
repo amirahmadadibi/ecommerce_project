@@ -11,11 +11,13 @@ import 'package:apple_shop/screens/profile_screen.dart';
 import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/datasource/authentication_datasource.dart';
 import 'di/di.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await getItInit();
   runApp(const MyApp());
 }
@@ -37,12 +39,15 @@ class _MyAppState extends State<MyApp> {
           child: Center(
             child: ElevatedButton(
               onPressed: () async {
-                var either = await AuthencticationRepository().login('amirahmad12','12345678');
-                either.fold((errorMesssage) {
-                  print(errorMesssage);
-                }, (successMessage) {
-                  print(successMessage);
-                });
+                // var either = await AuthencticationRepository()
+                //     .login('amirahmad', '12345678');
+                var shared = locator.get<SharedPreferences>();
+                print(shared.getString('access_token'));
+                // either.fold((errorMesssage) {
+                //   print(errorMesssage);
+                // }, (successMessage) {
+                //   print(successMessage);
+                // });
               },
               child: Text('click to register'),
             ),
