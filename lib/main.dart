@@ -5,6 +5,7 @@ import 'package:apple_shop/data/repository/authentication_repository.dart';
 import 'package:apple_shop/screens/card_screen.dart';
 import 'package:apple_shop/screens/category_screen.dart';
 import 'package:apple_shop/screens/home_screen.dart';
+import 'package:apple_shop/screens/login_screen.dart';
 import 'package:apple_shop/screens/product_detail_screen.dart';
 import 'package:apple_shop/screens/product_list_screen.dart';
 import 'package:apple_shop/screens/profile_screen.dart';
@@ -36,41 +37,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  var either = await AuthencticationRepository()
-                      .login('amirahmad', '12345678');
-                },
-                child: Text('login'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  AuthManager.logout();
-                },
-                child: Text('logout'),
-              ),
-              ValueListenableBuilder(
-                  valueListenable: AuthManager.authChangeNotifire,
-                  builder: ((context, value, child) {
-                    if (value == null || value.isEmpty) {
-                      return const Text(
-                        'شما وارد نشده اید',
-                        style: TextStyle(fontSize: 20),
-                      );
-                    } else {
-                      return const Text(
-                        'شما وارد شده اید',
-                        style: TextStyle(fontSize: 20),
-                      );
-                    }
-                  }))
-            ],
-          ),
-        ),
+        body: SafeArea(child: LoginScreen()),
         bottomNavigationBar: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
