@@ -1,11 +1,15 @@
+import 'package:apple_shop/bloc/authentication/auth_bloc.dart';
+import 'package:apple_shop/bloc/authentication/auth_event.dart';
+import 'package:apple_shop/bloc/authentication/auth_state.dart';
 import 'package:apple_shop/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final _usernameTextController = TextEditingController();
-  final _passwordTextController = TextEditingController();
+  final _usernameTextController = TextEditingController(text: 'amirahmad');
+  final _passwordTextController = TextEditingController(text: '12345678');
 
   @override
   Widget build(BuildContext context) {
@@ -98,15 +102,41 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(fontFamily: 'sb', fontSize: 18),
-                          minimumSize: Size(200, 48),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20))),
-                      onPressed: () {},
-                      child: Text('ورود به حساب کاربری'),
-                    )
+                    BlocBuilder<AuthBloc, AuthState>(
+                        builder: ((context, state) {
+                      if (state is AuthInitiateState) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              textStyle:
+                                  TextStyle(fontFamily: 'sb', fontSize: 18),
+                              minimumSize: Size(200, 48),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          onPressed: () {
+                            BlocProvider.of<AuthBloc>(context).add(
+                                AuthLoginRequest(_usernameTextController.text,
+                                    _passwordTextController.text));
+                          },
+                          child: Text('ورود به حساب کاربری'),
+                        );
+                      }
+
+                      if (state is AuthLoadingState) {
+                        return CircularProgressIndicator();
+                      }
+
+                      if (state is AuthResponseState) {
+                        Text widget = Text('');
+                        state.reponse.fold((l) {
+                          widget = Text(l);
+                        }, (r) {
+                          widget = Text(r);
+                        });
+                        return widget;
+                      }
+
+                      return Text('خطای نا مشخص !');
+                    })),
                   ],
                 ),
               ),

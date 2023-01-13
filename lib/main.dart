@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:apple_shop/bloc/authentication/auth_bloc.dart';
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/data/repository/authentication_repository.dart';
 import 'package:apple_shop/screens/card_screen.dart';
@@ -13,6 +14,7 @@ import 'package:apple_shop/util/auth_manager.dart';
 import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/datasource/authentication_datasource.dart';
@@ -37,7 +39,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: SafeArea(child: LoginScreen()),
+        body: BlocProvider(
+            create: ((context) => AuthBloc()),
+            child: LoginScreen(),
+        ),
         bottomNavigationBar: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
