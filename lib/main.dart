@@ -39,9 +39,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: BlocProvider(
-            create: ((context) => AuthBloc()),
-            child: LoginScreen(),
+        body: IndexedStack(
+          index: selectedBottomNavigationIndex,
+          children: getScreens(),
         ),
         bottomNavigationBar: ClipRRect(
           child: BackdropFilter(
@@ -141,7 +141,7 @@ class _MyAppState extends State<MyApp> {
     return <Widget>[
       ProfileScreen(),
       CardScreen(),
-      ProductListScreen(),
+      CategoryScreen(),
       HomeScreen()
     ];
   }
