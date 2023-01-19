@@ -1,6 +1,10 @@
+import 'package:apple_shop/bloc/category/category_bloc.dart';
+import 'package:apple_shop/bloc/category/category_event.dart';
+import 'package:apple_shop/bloc/category/category_state.dart';
 import 'package:apple_shop/data/repository/category_repository.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants/colors.dart';
 import '../data/model/category.dart';
@@ -13,10 +17,16 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<Category>? list;
+  @override
+  void initState() {
+    BlocProvider.of<CategoryBloc>(context).add(CategoryRequestList());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.backgroundScreenColor,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -52,23 +62,28 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: ElevatedButton(
-                onPressed: () async {
-                  var repository = CategoryRepository();
-                  var either = await repository.getCategories();
-                  either.fold((l) {
-                    print(l);
-                  }, (r) {
-                    setState(() {
-                      list = r;
-                    });
-                  });
-                },
-                child: Text('get data'),
-              ),
-            ),
-            _listCategory(list: list)
+            BlocBuilder<CategoryBloc, CategoryState>(
+                builder: ((context, state) {
+              if (state is CategoryLoadingState) {
+                return SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              if (state is CategoryResponseState) {
+                return state.response.fold((l) {
+                  return SliverToBoxAdapter(
+                    child: Center(child: Text(l)),
+                  );
+                }, (r) {
+                  return _listCategory(
+                    list: r,
+                  );
+                });
+              }
+              return SliverToBoxAdapter(
+                child: Text('error'),
+              );
+            })),
           ],
         ),
       ),
