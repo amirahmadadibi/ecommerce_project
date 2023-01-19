@@ -4,15 +4,16 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class CachedImage extends StatelessWidget {
-  String imageUrl;
-  CachedImage({super.key, required this.imageUrl});
+  String? imageUrl;
+  CachedImage({super.key, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       child: CachedNetworkImage(
           fit: BoxFit.cover,
-          imageUrl: imageUrl,
+          imageUrl: imageUrl ??
+              'http://startflutter.ir/api/files/f5pm8kntkfuwbn1/78q8w901e6iipuk/rectangle_63_7kADbEzuEo.png',
           errorWidget: (context, url, error) => Container(
                 color: Colors.red[100],
               ),
