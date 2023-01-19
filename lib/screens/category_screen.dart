@@ -1,7 +1,9 @@
 import 'package:apple_shop/data/repository/category_repository.dart';
+import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
+import '../data/model/category.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
@@ -52,32 +54,35 @@ class CategoryScreen extends StatelessWidget {
                   either.fold((l) {
                     print(l);
                   }, (r) {
-                    r.forEach((element) {
-                      print(element.title);
-                    });
+                    _listCategory(
+                      list: r,
+                    );
                   });
                 },
                 child: Text('get data'),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 44),
-              sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate(((context, index) {
-                  return Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                  );
-                })),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20),
-              ),
-            )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _listCategory extends StatelessWidget {
+  List<Category> list;
+  _listCategory({Key? key, required this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 44),
+      sliver: SliverGrid(
+        delegate: SliverChildBuilderDelegate(((context, index) {
+          return CachedImage(imageUrl: list[index].thumbnail!);
+        })),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
       ),
     );
   }
