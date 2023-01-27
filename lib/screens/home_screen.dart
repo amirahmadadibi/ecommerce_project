@@ -1,3 +1,5 @@
+import 'package:apple_shop/data/repository/banner_repository.dart';
+import 'package:apple_shop/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
@@ -15,6 +17,21 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
           child: CustomScrollView(
         slivers: [
+          SliverToBoxAdapter(
+            child: ElevatedButton(
+              onPressed: () async {
+                var response = await BannerRepository().getBanners();
+                response.fold((l) {
+                  print(l);
+                }, (r) {
+                  r.forEach((element) {
+                    print(element.id);
+                  });
+                });
+              },
+              child: Text('click'),
+            ),
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(left: 44, right: 44, bottom: 32),
