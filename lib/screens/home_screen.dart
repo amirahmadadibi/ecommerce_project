@@ -2,11 +2,8 @@ import 'package:apple_shop/bloc/home/home_bloc.dart';
 import 'package:apple_shop/bloc/home/home_event.dart';
 import 'package:apple_shop/bloc/home/home_state.dart';
 import 'package:apple_shop/data/model/banner.dart';
-import 'package:apple_shop/data/repository/banner_repository.dart';
-import 'package:apple_shop/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../constants/colors.dart';
 import '../data/model/category.dart';
 import '../widgets/Category_icon_item_chip.dart';
@@ -37,11 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
           return CustomScrollView(
             slivers: [
               if (state is HomeLoadingState) ...[
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(),
+                const SliverToBoxAdapter(
+                  child: Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 )
               ],
@@ -113,20 +112,20 @@ class _getMostViewedTitle extends StatelessWidget {
             const EdgeInsets.only(left: 44, right: 44, bottom: 20, top: 32),
         child: Row(
           children: [
-            Image.asset('assets/images/icon_left_categroy.png'),
-            const SizedBox(
-              width: 10,
-            ),
-            const Text(
-              'مشاهده همه',
-              style: TextStyle(fontFamily: 'sb', color: CustomColors.blue),
-            ),
-            const Spacer(),
             const Text(
               'پربازدید ترین‌ ها',
               style: TextStyle(
                   fontFamily: 'sb', fontSize: 12, color: CustomColors.gery),
-            )
+            ),
+            const Spacer(),
+            const Text(
+              'مشاهده همه',
+              style: TextStyle(fontFamily: 'sb', color: CustomColors.blue),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Image.asset('assets/images/icon_left_categroy.png'),
           ],
         ),
       ),
@@ -173,20 +172,20 @@ class _getBestSellerTitle extends StatelessWidget {
         padding: const EdgeInsets.only(left: 44, right: 44, bottom: 20),
         child: Row(
           children: [
-            Image.asset('assets/images/icon_left_categroy.png'),
-            const SizedBox(
-              width: 10,
-            ),
-            const Text(
-              'مشاهده همه',
-              style: TextStyle(fontFamily: 'sb', color: CustomColors.blue),
-            ),
-            const Spacer(),
             const Text(
               'پرفروش ترین‌ ها',
               style: TextStyle(
                   fontFamily: 'sb', fontSize: 12, color: CustomColors.gery),
-            )
+            ),
+            const Spacer(),
+            const Text(
+              'مشاهده همه',
+              style: TextStyle(fontFamily: 'sb', color: CustomColors.blue),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Image.asset('assets/images/icon_left_categroy.png'),
           ],
         ),
       ),
@@ -235,8 +234,8 @@ class _getCategoryListTitle extends StatelessWidget {
         padding:
             const EdgeInsets.only(left: 44, right: 44, bottom: 20, top: 32),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
             Text(
               'دسته‌ بندی',
               style: TextStyle(
@@ -287,19 +286,19 @@ class _getSearchBox extends StatelessWidget {
               const SizedBox(
                 width: 16,
               ),
-              Image.asset('assets/images/icon_apple_blue.png'),
+              Image.asset('assets/images/icon_search.png'),
+              const SizedBox(
+                width: 10,
+              ),
               const Expanded(
                 child: Text(
                   'جستجوی محصولات',
-                  textAlign: TextAlign.end,
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                       fontFamily: 'sb', fontSize: 16, color: CustomColors.gery),
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              Image.asset('assets/images/icon_search.png'),
+              Image.asset('assets/images/icon_apple_blue.png'),
               const SizedBox(
                 width: 16,
               )
