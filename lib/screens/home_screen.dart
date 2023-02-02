@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants/colors.dart';
+import '../data/model/category.dart';
 import '../widgets/Category_icon_item_chip.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
@@ -37,7 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
             slivers: [
               if (state is HomeLoadingState) ...[
                 SliverToBoxAdapter(
-                  child: CircularProgressIndicator(),
+                  child: SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(),
+                  ),
                 )
               ],
               _getSearchBox(),
@@ -49,7 +54,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 })
               ],
               _getCategoryListTitle(),
-              _getCategoryList(),
+              if (state is HomeRequestSuccessState) ...[
+                state.categoryList.fold((exceptionMessage) {
+                  return SliverToBoxAdapter(child: Text(exceptionMessage));
+                }, (categoryList) {
+                  return _getCategoryList(categoryList);
+                })
+              ],
               _getBestSellerTitle(),
               _getBestSellerProducts(),
               _getMostViewedTitle(),
@@ -184,7 +195,9 @@ class _getBestSellerTitle extends StatelessWidget {
 }
 
 class _getCategoryList extends StatelessWidget {
-  const _getCategoryList({
+  List<Category> listCategories;
+  _getCategoryList(
+    this.listCategories, {
     Key? key,
   }) : super(key: key);
 
@@ -197,11 +210,11 @@ class _getCategoryList extends StatelessWidget {
           height: 100,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: listCategories.length,
               itemBuilder: ((context, index) {
-                return const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: CategoryItemChip(),
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: CategoryItemChip(listCategories[index]),
                 );
               })),
         ),

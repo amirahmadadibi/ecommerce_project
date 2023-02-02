@@ -16,6 +16,7 @@ class Category {
         'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
         jsonObject['title'],
         jsonObject['color'],
-        jsonObject['icon']);
+         'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['icon']}',
+    );
   }
 }
