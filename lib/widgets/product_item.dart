@@ -54,10 +54,10 @@ class ProductItem extends StatelessWidget {
                       Radius.circular(15),
                     ),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 2, horizontal: 6),
                     child: Text(
-                      '٪۳',
+                      '${product.persent!.round().toString()} ٪',
                       style: TextStyle(
                           fontFamily: 'sb', fontSize: 12, color: Colors.white),
                     ),
