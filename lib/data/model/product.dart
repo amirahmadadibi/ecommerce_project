@@ -9,7 +9,7 @@ class Product {
   String name;
   int quantity;
   String category;
-
+  int? realPrice;
   Product(
       this.id,
       this.collectionId,
@@ -20,13 +20,15 @@ class Product {
       this.popularity,
       this.name,
       this.quantity,
-      this.category);
+      this.category) {
+    realPrice = price + discountPrice;
+  }
 
   factory Product.fromJson(Map<String, dynamic> jsonObject) {
     return Product(
         jsonObject['id'],
         jsonObject['collectionId'],
-        jsonObject['thumbnail'],
+        'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
         jsonObject['description'],
         jsonObject['discount_price'],
         jsonObject['price'],

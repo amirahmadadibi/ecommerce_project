@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants/colors.dart';
 import '../data/model/category.dart';
+import '../data/model/product.dart';
 import '../widgets/Category_icon_item_chip.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
@@ -61,7 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 })
               ],
               _getBestSellerTitle(),
-              _getBestSellerProducts(),
+              if (state is HomeRequestSuccessState) ...[
+                state.productList.fold((exceptionMessage) {
+                  return SliverToBoxAdapter(child: Text(exceptionMessage));
+                }, (productList) {
+                  return _getBestSellerProducts(productList);
+                })
+              ],
               _getMostViewedTitle(),
               _getMostViewedProduct()
             ],
@@ -90,7 +97,7 @@ class _getMostViewedProduct extends StatelessWidget {
               itemBuilder: ((context, index) {
                 return const Padding(
                   padding: EdgeInsets.only(left: 20),
-                  child: ProductItem(),
+                  child: Text(''),
                 );
               })),
         ),
@@ -134,7 +141,9 @@ class _getMostViewedTitle extends StatelessWidget {
 }
 
 class _getBestSellerProducts extends StatelessWidget {
-  const _getBestSellerProducts({
+  List<Product> productList;
+  _getBestSellerProducts(
+    this.productList, {
     Key? key,
   }) : super(key: key);
 
@@ -151,7 +160,7 @@ class _getBestSellerProducts extends StatelessWidget {
               itemBuilder: ((context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: ProductItem(),
+                  child: ProductItem(productList[index]),
                 );
               })),
         ),

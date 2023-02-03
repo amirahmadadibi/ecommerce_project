@@ -1,9 +1,13 @@
+import 'package:apple_shop/data/model/product.dart';
+import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({
+  Product product;
+  ProductItem(
+    this.product, {
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +29,13 @@ class ProductItem extends StatelessWidget {
             alignment: AlignmentDirectional.center,
             children: [
               Expanded(child: Container()),
-              Image.asset('assets/images/iphone.png'),
+              SizedBox(
+                height: 98,
+                width: 98,
+                child: CachedImage(
+                  imageUrl: product.thumbnail,
+                ),
+              ),
               Positioned(
                 top: 0,
                 right: 10,
@@ -58,12 +68,13 @@ class ProductItem extends StatelessWidget {
           ),
           const Spacer(),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 10, right: 10),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10, right: 10),
                 child: Text(
-                  'آیفون ۱۳ پرومکس',
+                  product.name,
+                  maxLines: 1,
                   style: TextStyle(fontFamily: 'sm', fontSize: 14),
                 ),
               ),
@@ -101,9 +112,9 @@ class ProductItem extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            '۴۹،۸۰۰،۰۰۰',
+                            product.price.toString(),
                             style: TextStyle(
                                 fontFamily: 'sm',
                                 fontSize: 12,
@@ -111,7 +122,7 @@ class ProductItem extends StatelessWidget {
                                 decoration: TextDecoration.lineThrough),
                           ),
                           Text(
-                            '۴۸،۸۰۰،۰۰۰',
+                            product.realPrice.toString(),
                             style: TextStyle(
                               fontFamily: 'sm',
                               fontSize: 16,
