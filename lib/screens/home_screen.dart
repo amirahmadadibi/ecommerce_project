@@ -61,16 +61,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   return _getCategoryList(categoryList);
                 })
               ],
-              _getBestSellerTitle(),
+              const _getBestSellerTitle(),
               if (state is HomeRequestSuccessState) ...[
-                state.productList.fold((exceptionMessage) {
+                state.bestSellerProductList.fold((exceptionMessage) {
                   return SliverToBoxAdapter(child: Text(exceptionMessage));
                 }, (productList) {
                   return _getBestSellerProducts(productList);
                 })
               ],
-              _getMostViewedTitle(),
-              _getMostViewedProduct()
+              const _getMostViewedTitle(),
+              if (state is HomeRequestSuccessState) ...[
+                state.hotestProductList.fold((exceptionMessage) {
+                  return SliverToBoxAdapter(child: Text(exceptionMessage));
+                }, (productList) {
+                  return _getMostViewedProduct(productList);
+                })
+              ]
             ],
           );
         },
@@ -80,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _getMostViewedProduct extends StatelessWidget {
-  const _getMostViewedProduct({
+  List<Product> productList;
+  _getMostViewedProduct(
+    this.productList, {
     Key? key,
   }) : super(key: key);
 
@@ -93,11 +101,11 @@ class _getMostViewedProduct extends StatelessWidget {
           height: 200,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: productList.length,
               itemBuilder: ((context, index) {
-                return const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(''),
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: ProductItem(productList[index]),
                 );
               })),
         ),
@@ -156,7 +164,7 @@ class _getBestSellerProducts extends StatelessWidget {
           height: 200,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: productList.length,
               itemBuilder: ((context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 20),
