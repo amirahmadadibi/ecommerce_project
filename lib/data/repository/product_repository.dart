@@ -26,7 +26,7 @@ class ProductRepository extends IProductRepository {
   @override
   Future<Either<String, List<Product>>> getBsetSeller() async {
     try {
-      var response = await _datasource.getProducts();
+      var response = await _datasource.getBestSeller();
       return right(response);
     } on ApiException catch (ex) {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');
@@ -36,7 +36,7 @@ class ProductRepository extends IProductRepository {
   @override
   Future<Either<String, List<Product>>> getHotest() async {
     try {
-      var response = await _datasource.getBestSeller();
+      var response = await _datasource.getHotest();
       return right(response);
     } on ApiException catch (ex) {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');

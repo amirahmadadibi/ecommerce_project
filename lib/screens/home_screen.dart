@@ -34,49 +34,54 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
           return CustomScrollView(
             slivers: [
-              if (state is HomeLoadingState) ...[
-                const SliverToBoxAdapter(
-                  child: Center(
-                    child: SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(),
-                    ),
+              if (state is HomeLoadingState) ...{
+                SliverToBoxAdapter(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: const [
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
                   ),
                 )
-              ],
-              _getSearchBox(),
-              if (state is HomeRequestSuccessState) ...[
-                state.bannerList.fold((exceptionMessage) {
-                  return SliverToBoxAdapter(child: Text(exceptionMessage));
-                }, (listBanners) {
-                  return _getBanners(listBanners);
-                })
-              ],
-              _getCategoryListTitle(),
-              if (state is HomeRequestSuccessState) ...[
-                state.categoryList.fold((exceptionMessage) {
-                  return SliverToBoxAdapter(child: Text(exceptionMessage));
-                }, (categoryList) {
-                  return _getCategoryList(categoryList);
-                })
-              ],
-              const _getBestSellerTitle(),
-              if (state is HomeRequestSuccessState) ...[
-                state.bestSellerProductList.fold((exceptionMessage) {
-                  return SliverToBoxAdapter(child: Text(exceptionMessage));
-                }, (productList) {
-                  return _getBestSellerProducts(productList);
-                })
-              ],
-              const _getMostViewedTitle(),
-              if (state is HomeRequestSuccessState) ...[
-                state.hotestProductList.fold((exceptionMessage) {
-                  return SliverToBoxAdapter(child: Text(exceptionMessage));
-                }, (productList) {
-                  return _getMostViewedProduct(productList);
-                })
-              ]
+              } else ...{
+                _getSearchBox(),
+                if (state is HomeRequestSuccessState) ...[
+                  state.bannerList.fold((exceptionMessage) {
+                    return SliverToBoxAdapter(child: Text(exceptionMessage));
+                  }, (listBanners) {
+                    return _getBanners(listBanners);
+                  })
+                ],
+                _getCategoryListTitle(),
+                if (state is HomeRequestSuccessState) ...[
+                  state.categoryList.fold((exceptionMessage) {
+                    return SliverToBoxAdapter(child: Text(exceptionMessage));
+                  }, (categoryList) {
+                    return _getCategoryList(categoryList);
+                  })
+                ],
+                const _getBestSellerTitle(),
+                if (state is HomeRequestSuccessState) ...[
+                  state.bestSellerProductList.fold((exceptionMessage) {
+                    return SliverToBoxAdapter(child: Text(exceptionMessage));
+                  }, (productList) {
+                    return _getBestSellerProducts(productList);
+                  })
+                ],
+                const _getMostViewedTitle(),
+                if (state is HomeRequestSuccessState) ...[
+                  state.hotestProductList.fold((exceptionMessage) {
+                    return SliverToBoxAdapter(child: Text(exceptionMessage));
+                  }, (productList) {
+                    return _getMostViewedProduct(productList);
+                  })
+                ]
+              },
             ],
           );
         },
