@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:apple_shop/data/repository/product_detail_repository.dart';
+import 'package:apple_shop/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -491,18 +493,29 @@ class AddToBasketButton extends StatelessWidget {
           ),
         ),
         Positioned(
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                height: 53,
-                width: 160,
-                child: const Center(
-                  child: Text(
-                    'افزودن سبد خرید',
-                    style: TextStyle(
-                        fontFamily: 'sb', fontSize: 16, color: Colors.white),
+          child: GestureDetector(
+            onTap: () async {
+              IDetailProductRepository repository = locator.get();
+              var reponse = await repository.getProuctImage();
+              reponse.fold((l) {}, (r) {
+                r.forEach((element) {
+                  print(element.imageUrl);
+                });
+              });
+            },
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  height: 53,
+                  width: 160,
+                  child: const Center(
+                    child: Text(
+                      'افزودن سبد خرید',
+                      style: TextStyle(
+                          fontFamily: 'sb', fontSize: 16, color: Colors.white),
+                    ),
                   ),
                 ),
               ),
