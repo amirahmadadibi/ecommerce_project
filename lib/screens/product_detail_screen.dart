@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
+import 'package:apple_shop/data/model/product_variant.dart';
 import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/di/di.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants/colors.dart';
 import '../data/model/product_image.dart';
+import '../data/model/variant.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -108,101 +110,93 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     return SliverToBoxAdapter(
                       child: Text(l),
                     );
-                  }, (variantList) {
-                    for (var variant in variantList) {
-                      print(variant.variantType.title);
-                      for (var varintObject in variant.variantList) {
-                        print(varintObject.name);
-                      }
-                    }
-                    return SliverToBoxAdapter(
-                      child: Text('adsfsad'),
-                    );
-                  })
+                  }, (productVariantList) {
+                    return VariantContainer(productVariantList);
+                  }),
                 },
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, right: 44, left: 44),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'انتخاب حافظه داخلی',
-                          style: TextStyle(fontFamily: 'sm', fontSize: 12),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              height: 25,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                border: Border.all(
-                                    width: 1, color: CustomColors.gery),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Center(
-                                    child: Text(
-                                  '128',
-                                  style:
-                                      TextStyle(fontFamily: 'sb', fontSize: 12),
-                                )),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              height: 25,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                border: Border.all(
-                                    width: 1, color: CustomColors.gery),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Center(
-                                    child: Text(
-                                  '128',
-                                  style:
-                                      TextStyle(fontFamily: 'sb', fontSize: 12),
-                                )),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              height: 25,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                border: Border.all(
-                                    width: 1, color: CustomColors.gery),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Center(
-                                    child: Text(
-                                  '128',
-                                  style:
-                                      TextStyle(fontFamily: 'sb', fontSize: 12),
-                                )),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                // SliverToBoxAdapter(
+                //   child: Padding(
+                //     padding:
+                //         const EdgeInsets.only(top: 20, right: 44, left: 44),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.end,
+                //       children: [
+                //         const Text(
+                //           'انتخاب حافظه داخلی',
+                //           style: TextStyle(fontFamily: 'sm', fontSize: 12),
+                //         ),
+                //         const SizedBox(
+                //           height: 10,
+                //         ),
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.end,
+                //           children: [
+                //             Container(
+                //               margin: const EdgeInsets.only(left: 10),
+                //               height: 25,
+                //               decoration: BoxDecoration(
+                //                 color: Colors.white,
+                //                 borderRadius:
+                //                     const BorderRadius.all(Radius.circular(8)),
+                //                 border: Border.all(
+                //                     width: 1, color: CustomColors.gery),
+                //               ),
+                //               child: const Padding(
+                //                 padding: EdgeInsets.symmetric(horizontal: 20),
+                //                 child: Center(
+                //                     child: Text(
+                //                   '128',
+                //                   style:
+                //                       TextStyle(fontFamily: 'sb', fontSize: 12),
+                //                 )),
+                //               ),
+                //             ),
+                //             Container(
+                //               margin: const EdgeInsets.only(left: 10),
+                //               height: 25,
+                //               decoration: BoxDecoration(
+                //                 color: Colors.white,
+                //                 borderRadius:
+                //                     const BorderRadius.all(Radius.circular(8)),
+                //                 border: Border.all(
+                //                     width: 1, color: CustomColors.gery),
+                //               ),
+                //               child: const Padding(
+                //                 padding: EdgeInsets.symmetric(horizontal: 20),
+                //                 child: Center(
+                //                     child: Text(
+                //                   '128',
+                //                   style:
+                //                       TextStyle(fontFamily: 'sb', fontSize: 12),
+                //                 )),
+                //               ),
+                //             ),
+                //             Container(
+                //               margin: const EdgeInsets.only(left: 10),
+                //               height: 25,
+                //               decoration: BoxDecoration(
+                //                 color: Colors.white,
+                //                 borderRadius:
+                //                     const BorderRadius.all(Radius.circular(8)),
+                //                 border: Border.all(
+                //                     width: 1, color: CustomColors.gery),
+                //               ),
+                //               child: const Padding(
+                //                 padding: EdgeInsets.symmetric(horizontal: 20),
+                //                 child: Center(
+                //                     child: Text(
+                //                   '128',
+                //                   style:
+                //                       TextStyle(fontFamily: 'sb', fontSize: 12),
+                //                 )),
+                //               ),
+                //             ),
+                //           ],
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SliverToBoxAdapter(
                   child: Container(
                     margin: const EdgeInsets.only(top: 24, left: 44, right: 44),
@@ -414,10 +408,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 }
 
-class ColorVariant extends StatelessWidget {
-  VariantType variantType;
-  ColorVariant(
-    this.variantType, {
+class VariantContainer extends StatelessWidget {
+  List<ProductVarint> productVariantList;
+  VariantContainer(
+    this.productVariantList, {
     Key? key,
   }) : super(key: key);
 
@@ -430,7 +424,7 @@ class ColorVariant extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              variantType.title!,
+              productVariantList[0].variantType.title!,
               style: TextStyle(fontFamily: 'sm', fontSize: 12),
             ),
             const SizedBox(
@@ -439,33 +433,7 @@ class ColorVariant extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  height: 26,
-                  width: 26,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  height: 26,
-                  width: 26,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  height: 26,
-                  width: 26,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                ),
+                ..._buildColorVariantsOptions(productVariantList[0].variantList)
               ],
             )
           ],
@@ -473,6 +441,27 @@ class ColorVariant extends StatelessWidget {
       ),
     );
   }
+}
+
+List<Widget> _buildColorVariantsOptions(List<Variant> variantList) {
+  List<Widget> colorWidgets = [];
+
+  for (var colorVariant in variantList) {
+    String categoryColor = 'ff${colorVariant.value}';
+    int hexColor = int.parse(categoryColor, radix: 16);
+    var item = Container(
+      margin: const EdgeInsets.only(left: 10),
+      height: 26,
+      width: 26,
+      decoration: BoxDecoration(
+        color: Color(hexColor),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+    );
+
+    colorWidgets.add(item);
+  }
+  return colorWidgets;
 }
 
 class GalleryWidget extends StatefulWidget {

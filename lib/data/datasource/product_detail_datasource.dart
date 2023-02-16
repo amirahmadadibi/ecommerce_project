@@ -54,7 +54,8 @@ class DetailProductRemoteDatasource extends IDetailProductDatasource {
     try {
       Map<String, String> qParams = {'filter': 'product_id="0tc0e5ju89x5ogj"'};
 
-      var respones = await _dio.get('collections/variants/records');
+      var respones = await _dio.get('collections/variants/records',
+          queryParameters: qParams);
 
       return respones.data['items']
           .map<Variant>((jsonObject) => Variant.fromJson(jsonObject))
@@ -74,10 +75,10 @@ class DetailProductRemoteDatasource extends IDetailProductDatasource {
     List<ProductVarint> productVariantList = [];
 
     for (var variantType in variantTypeList) {
-      var varintList = variantList
+      var variant = variantList
           .where((element) => element.typeId == variantType.id)
           .toList();
-      productVariantList.add(ProductVarint(variantType, variantList));
+      productVariantList.add(ProductVarint(variantType, variant));
     }
 
     return productVariantList;
