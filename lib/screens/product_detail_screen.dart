@@ -449,14 +449,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 }
 
-class GalleryWidget extends StatelessWidget {
+class GalleryWidget extends StatefulWidget {
   List<ProductImage> productImageList;
-
+  int selectedItem = 0;
   GalleryWidget(
     this.productImageList, {
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<GalleryWidget> createState() => _GalleryWidgetState();
+}
+
+class _GalleryWidgetState extends State<GalleryWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -474,22 +479,31 @@ class GalleryWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                  padding: const EdgeInsets.only(left: 14, right: 14, top: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset(
-                        'assets/images/icon_star.png',
-                      ),
-                      const Text(
-                        '۴.۶',
-                        style: TextStyle(fontFamily: 'sm', fontSize: 12),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/icon_star.png',
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          const Text(
+                            '۴.۶',
+                            style: TextStyle(fontFamily: 'sm', fontSize: 12),
+                          ),
+                        ],
                       ),
                       Spacer(),
                       SizedBox(
                         height: double.infinity,
-                        child:
-                            CachedImage(imageUrl: productImageList[0].imageUrl),
+                        child: CachedImage(
+                            imageUrl: widget
+                                .productImageList[widget.selectedItem]
+                                .imageUrl),
                       ),
                       Spacer(),
                       Image.asset('assets/images/icon_favorite_deactive.png')
@@ -500,25 +514,32 @@ class GalleryWidget extends StatelessWidget {
               SizedBox(
                 height: 70,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 44, right: 44),
+                  padding: const EdgeInsets.only(left: 44, right: 44, top: 4),
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: productImageList.length,
+                    itemCount: widget.productImageList.length,
                     itemBuilder: ((context, index) {
-                      return Container(
-                        height: 70,
-                        width: 70,
-                        margin: const EdgeInsets.only(left: 20),
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          border:
-                              Border.all(width: 1, color: CustomColors.gery),
-                        ),
-                        child: CachedImage(
-                          imageUrl: productImageList[index].imageUrl,
-                          radius: 10,
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            widget.selectedItem = index;
+                          });
+                        },
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          margin: const EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            border:
+                                Border.all(width: 1, color: CustomColors.gery),
+                          ),
+                          child: CachedImage(
+                            imageUrl: widget.productImageList[index].imageUrl,
+                            radius: 10,
+                          ),
                         ),
                       );
                     }),
