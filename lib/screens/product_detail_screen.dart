@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
+import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
@@ -94,7 +95,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 if (state is ProductDetailResponseState) ...{
-                  state.getProductImages.fold((l) {
+                  state.productImages.fold((l) {
                     return SliverToBoxAdapter(
                       child: Text(l),
                     );
@@ -102,59 +103,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     return GalleryWidget(productImageList);
                   })
                 },
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, right: 44, left: 44),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'انتخاب رنگ',
-                          style: TextStyle(fontFamily: 'sm', fontSize: 12),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              height: 26,
-                              width: 26,
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              height: 26,
-                              width: 26,
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              height: 26,
-                              width: 26,
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                if (state is ProductDetailResponseState) ...{
+                  state.productVariantTypes.fold((l) {
+                    return SliverToBoxAdapter(
+                      child: Text(l),
+                    );
+                  }, (variantList) {
+                    variantList.forEach((variantType) {
+                       if (variantType.type == VariantTypeEnum.COLOR) {
+                         return ColorVariant(variantType);
+                      }
+                    });
+                    return Text('variant null');
+                  })
+                },
                 SliverToBoxAdapter(
                   child: Padding(
                     padding:
@@ -444,6 +406,67 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           );
         }),
+      ),
+    );
+  }
+}
+
+class ColorVariant extends StatelessWidget {
+  VariantType variantType;
+  ColorVariant(
+    this.variantType, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, right: 44, left: 44),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              variantType.title!,
+              style: TextStyle(fontFamily: 'sm', fontSize: 12),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 26,
+                  width: 26,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 26,
+                  width: 26,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 26,
+                  width: 26,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
