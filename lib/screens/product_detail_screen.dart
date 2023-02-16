@@ -104,17 +104,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   })
                 },
                 if (state is ProductDetailResponseState) ...{
-                  state.productVariantTypes.fold((l) {
+                  state.productVariant.fold((l) {
                     return SliverToBoxAdapter(
                       child: Text(l),
                     );
                   }, (variantList) {
-                    variantList.forEach((variantType) {
-                       if (variantType.type == VariantTypeEnum.COLOR) {
-                         return ColorVariant(variantType);
+                    for (var variant in variantList) {
+                      print(variant.variantType.title);
+                      for (var varintObject in variant.variantList) {
+                        print(varintObject.name);
                       }
-                    });
-                    return Text('variant null');
+                    }
+                    return SliverToBoxAdapter(
+                      child: Text('adsfsad'),
+                    );
                   })
                 },
                 SliverToBoxAdapter(
