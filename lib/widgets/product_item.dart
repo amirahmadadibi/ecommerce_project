@@ -21,7 +21,7 @@ class ProductItem extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => BlocProvider(
                 create: (context) => ProductBloc(),
-                child: ProductDetailScreen())));
+                child: ProductDetailScreen(product))));
       },
       child: Container(
         height: 216,
