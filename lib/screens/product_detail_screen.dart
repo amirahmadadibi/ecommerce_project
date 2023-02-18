@@ -4,6 +4,7 @@ import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
 import 'package:apple_shop/data/model/product_variant.dart';
+import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
@@ -110,7 +111,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Text(l),
                     );
                   }, (productVariantList) {
-                    return VariantContainer(productVariantList);
+                    return VariantContainerGenerator(productVariantList);
                   }),
                 },
                 // SliverToBoxAdapter(
@@ -407,9 +408,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 }
 
-class VariantContainer extends StatelessWidget {
+class VariantContainerGenerator extends StatelessWidget {
   List<ProductVarint> productVariantList;
-  VariantContainer(
+  VariantContainerGenerator(
     this.productVariantList, {
     Key? key,
   }) : super(key: key);
@@ -417,22 +418,42 @@ class VariantContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20, right: 44, left: 44),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              productVariantList[1].variantType.title!,
-              style: TextStyle(fontFamily: 'sm', fontSize: 12),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SotrageVariantList(productVariantList[1].variantList)
-            // ColorVarinantList(productVariantList[0].variantList)
-          ],
-        ),
+      child: Column(children: [
+        for (var productVariant in productVariantList) ...{
+          if (productVariant.variantList.isNotEmpty) ...{
+            VariantGeneratorChild(productVariant)
+          }
+        }
+      ]),
+    );
+  }
+}
+
+class VariantGeneratorChild extends StatelessWidget {
+  ProductVarint productVariant;
+  VariantGeneratorChild(this.productVariant, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, right: 44, left: 44),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            productVariant.variantType.title!,
+            style: TextStyle(fontFamily: 'sm', fontSize: 12),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          if (productVariant.variantType.type == VariantTypeEnum.COLOR) ...{
+            ColorVarinantList(productVariant.variantList)
+          },
+          if (productVariant.variantType.type == VariantTypeEnum.STORAGE) ...{
+            SotrageVariantList(productVariant.variantList)
+          }
+        ],
       ),
     );
   }
@@ -564,29 +585,18 @@ class AddToBasketButton extends StatelessWidget {
           ),
         ),
         Positioned(
-          child: GestureDetector(
-            onTap: () async {
-              IDetailProductRepository repository = locator.get();
-              var reponse = await repository.getProuctImage();
-              reponse.fold((l) {}, (r) {
-                r.forEach((element) {
-                  print(element.imageUrl);
-                });
-              });
-            },
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  height: 53,
-                  width: 160,
-                  child: const Center(
-                    child: Text(
-                      'افزودن سبد خرید',
-                      style: TextStyle(
-                          fontFamily: 'sb', fontSize: 16, color: Colors.white),
-                    ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                height: 53,
+                width: 160,
+                child: const Center(
+                  child: Text(
+                    'افزودن سبد خرید',
+                    style: TextStyle(
+                        fontFamily: 'sb', fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
