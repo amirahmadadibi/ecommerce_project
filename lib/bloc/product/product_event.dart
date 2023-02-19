@@ -1,7 +1,6 @@
-abstract class ProductEvent{
+abstract class ProductEvent {}
 
-}
-
-class ProductInitializeEvent extends ProductEvent{
-    
+class ProductInitializeEvent extends ProductEvent {
+  String productId;
+  ProductInitializeEvent(this.productId);
 }

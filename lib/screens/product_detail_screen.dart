@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
+import 'package:apple_shop/data/model/product.dart';
 import 'package:apple_shop/data/model/product_variant.dart';
 import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
@@ -16,7 +17,9 @@ import '../data/model/product_image.dart';
 import '../data/model/variant.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key});
+  Product product;
+
+  ProductDetailScreen(this.product, {super.key});
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -25,7 +28,8 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
-    BlocProvider.of<ProductBloc>(context).add(ProductInitializeEvent());
+    BlocProvider.of<ProductBloc>(context)
+        .add(ProductInitializeEvent(widget.product.id));
     super.initState();
   }
 
@@ -102,7 +106,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Text(l),
                     );
                   }, (productImageList) {
-                    return GalleryWidget(productImageList);
+                    return GalleryWidget(
+                        widget.product.thumbnail, productImageList);
                   })
                 },
                 if (state is ProductDetailResponseState) ...{
@@ -461,8 +466,11 @@ class VariantGeneratorChild extends StatelessWidget {
 
 class GalleryWidget extends StatefulWidget {
   List<ProductImage> productImageList;
+  String? defaultProductThumbnail;
+
   int selectedItem = 0;
   GalleryWidget(
+    this.defaultProductThumbnail,
     this.productImageList, {
     Key? key,
   }) : super(key: key);
@@ -509,11 +517,13 @@ class _GalleryWidgetState extends State<GalleryWidget> {
                       ),
                       Spacer(),
                       SizedBox(
-                        height: double.infinity,
+                        height: 200,
+                        width: 200,
                         child: CachedImage(
-                            imageUrl: widget
-                                .productImageList[widget.selectedItem]
-                                .imageUrl),
+                            imageUrl: (widget.productImageList.isEmpty)
+                                ? widget.defaultProductThumbnail
+                                : widget.productImageList[widget.selectedItem]
+                                    .imageUrl),
                       ),
                       Spacer(),
                       Image.asset('assets/images/icon_favorite_deactive.png')
@@ -521,44 +531,46 @@ class _GalleryWidgetState extends State<GalleryWidget> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 70,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 44, right: 44, top: 4),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.productImageList.length,
-                    itemBuilder: ((context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            widget.selectedItem = index;
-                          });
-                        },
-                        child: Container(
-                          height: 70,
-                          width: 70,
-                          margin: const EdgeInsets.only(left: 20),
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            border:
-                                Border.all(width: 1, color: CustomColors.gery),
+              if (widget.productImageList.isNotEmpty) ...{
+                SizedBox(
+                  height: 70,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 44, right: 44, top: 4),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.productImageList.length,
+                      itemBuilder: ((context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              widget.selectedItem = index;
+                            });
+                          },
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            margin: const EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                  width: 1, color: CustomColors.gery),
+                            ),
+                            child: CachedImage(
+                              imageUrl: widget.productImageList[index].imageUrl,
+                              radius: 10,
+                            ),
                           ),
-                          child: CachedImage(
-                            imageUrl: widget.productImageList[index].imageUrl,
-                            radius: 10,
-                          ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              )
+                const SizedBox(
+                  height: 20,
+                )
+              }
             ],
           ),
         ),
