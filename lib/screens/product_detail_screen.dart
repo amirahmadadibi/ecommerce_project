@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
+import 'package:apple_shop/data/model/product.dart';
 import 'package:apple_shop/data/model/product_variant.dart';
 import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
@@ -18,6 +19,7 @@ import '../data/model/variant.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   Product product;
+
   ProductDetailScreen(this.product, {super.key});
 
   @override
@@ -466,6 +468,7 @@ class VariantGeneratorChild extends StatelessWidget {
 class GalleryWidget extends StatefulWidget {
   List<ProductImage> productImageList;
   String? defaultProductThumbnail;
+
   int selectedItem = 0;
   GalleryWidget(
     this.defaultProductThumbnail,
@@ -564,11 +567,12 @@ class _GalleryWidgetState extends State<GalleryWidget> {
                       }),
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
                 )
-              },
-              SizedBox(
-                height: 20,
-              )
+              }
+
             ],
           ),
         ),

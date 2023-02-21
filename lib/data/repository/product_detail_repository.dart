@@ -8,7 +8,8 @@ import '../../di/di.dart';
 import '../../util/api_exception.dart';
 
 abstract class IDetailProductRepository {
-  Future<Either<String, List<ProductImage>>> getProuctImages(String productId);
+  Future<Either<String, List<ProductImage>>> getProuctImage(String productId);
+
   Future<Either<String, List<VariantType>>> getVariantTypes();
 
   Future<Either<String, List<ProductVarint>>> getProductVarinats();
@@ -18,7 +19,8 @@ class DetailProductRepository extends IDetailProductRepository {
   final IDetailProductDatasource _datasource = locator.get();
 
   @override
-  Future<Either<String, List<ProductImage>>> getProuctImages(
+  Future<Either<String, List<ProductImage>>> getProuctImage(
+
       String productId) async {
     try {
       var response = await _datasource.getGallery(productId);
