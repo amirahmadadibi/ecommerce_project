@@ -9,11 +9,10 @@ import '../../util/api_exception.dart';
 
 abstract class IDetailProductRepository {
   Future<Either<String, List<ProductImage>>> getProuctImage(String productId);
+
   Future<Either<String, List<VariantType>>> getVariantTypes();
 
-    Future<Either<String, List<ProductVarint>>> getProductVarinats();
-
-
+  Future<Either<String, List<ProductVarint>>> getProductVarinats();
 }
 
 class DetailProductRepository extends IDetailProductRepository {
@@ -21,6 +20,7 @@ class DetailProductRepository extends IDetailProductRepository {
 
   @override
   Future<Either<String, List<ProductImage>>> getProuctImage(
+
       String productId) async {
     try {
       var response = await _datasource.getGallery(productId);
@@ -39,10 +39,10 @@ class DetailProductRepository extends IDetailProductRepository {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');
     }
   }
-  
+
   @override
   Future<Either<String, List<ProductVarint>>> getProductVarinats() async {
-        try {
+    try {
       var response = await _datasource.getProductVariants();
       return right(response);
     } on ApiException catch (ex) {

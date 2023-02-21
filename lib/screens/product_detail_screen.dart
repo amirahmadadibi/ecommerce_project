@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants/colors.dart';
+import '../data/model/product.dart';
 import '../data/model/product_image.dart';
 import '../data/model/variant.dart';
 
@@ -571,6 +572,7 @@ class _GalleryWidgetState extends State<GalleryWidget> {
                   height: 20,
                 )
               }
+
             ],
           ),
         ),
