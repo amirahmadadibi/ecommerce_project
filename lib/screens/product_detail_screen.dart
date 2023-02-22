@@ -102,13 +102,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   )
                 },
-                const SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      'Se 2022 آیفون',
+                      widget.product.name,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: 'sb', fontSize: 16, color: Colors.black),
                     ),
                   ),
@@ -132,89 +132,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     return VariantContainerGenerator(productVariantList);
                   }),
                 },
-                // SliverToBoxAdapter(
-                //   child: Padding(
-                //     padding:
-                //         const EdgeInsets.only(top: 20, right: 44, left: 44),
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.end,
-                //       children: [
-                //         const Text(
-                //           'انتخاب حافظه داخلی',
-                //           style: TextStyle(fontFamily: 'sm', fontSize: 12),
-                //         ),
-                //         const SizedBox(
-                //           height: 10,
-                //         ),
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.end,
-                //           children: [
-                //             Container(
-                //               margin: const EdgeInsets.only(left: 10),
-                //               height: 25,
-                //               decoration: BoxDecoration(
-                //                 color: Colors.white,
-                //                 borderRadius:
-                //                     const BorderRadius.all(Radius.circular(8)),
-                //                 border: Border.all(
-                //                     width: 1, color: CustomColors.gery),
-                //               ),
-                //               child: const Padding(
-                //                 padding: EdgeInsets.symmetric(horizontal: 20),
-                //                 child: Center(
-                //                     child: Text(
-                //                   '128',
-                //                   style:
-                //                       TextStyle(fontFamily: 'sb', fontSize: 12),
-                //                 )),
-                //               ),
-                //             ),
-                //             Container(
-                //               margin: const EdgeInsets.only(left: 10),
-                //               height: 25,
-                //               decoration: BoxDecoration(
-                //                 color: Colors.white,
-                //                 borderRadius:
-                //                     const BorderRadius.all(Radius.circular(8)),
-                //                 border: Border.all(
-                //                     width: 1, color: CustomColors.gery),
-                //               ),
-                //               child: const Padding(
-                //                 padding: EdgeInsets.symmetric(horizontal: 20),
-                //                 child: Center(
-                //                     child: Text(
-                //                   '128',
-                //                   style:
-                //                       TextStyle(fontFamily: 'sb', fontSize: 12),
-                //                 )),
-                //               ),
-                //             ),
-                //             Container(
-                //               margin: const EdgeInsets.only(left: 10),
-                //               height: 25,
-                //               decoration: BoxDecoration(
-                //                 color: Colors.white,
-                //                 borderRadius:
-                //                     const BorderRadius.all(Radius.circular(8)),
-                //                 border: Border.all(
-                //                     width: 1, color: CustomColors.gery),
-                //               ),
-                //               child: const Padding(
-                //                 padding: EdgeInsets.symmetric(horizontal: 20),
-                //                 child: Center(
-                //                     child: Text(
-                //                   '128',
-                //                   style:
-                //                       TextStyle(fontFamily: 'sb', fontSize: 12),
-                //                 )),
-                //               ),
-                //             ),
-                //           ],
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 SliverToBoxAdapter(
                   child: Container(
                     margin: const EdgeInsets.only(top: 24, left: 44, right: 44),
