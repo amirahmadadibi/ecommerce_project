@@ -1,5 +1,6 @@
 import 'package:apple_shop/data/datasource/product_detail_datasource.dart';
 import 'package:apple_shop/data/model/product_image.dart';
+import 'package:apple_shop/data/model/product_peroperty.dart';
 import 'package:apple_shop/data/model/product_variant.dart';
 import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:dartz/dartz.dart';
@@ -16,6 +17,7 @@ abstract class IDetailProductRepository {
   Future<Either<String, List<ProductVarint>>> getProductVarinats(
       String productId);
   Future<Either<String, Category>> getProductCategory(String categoryId);
+  Future<Either<String, List<Property>>> getProductProperties(String productId);
 }
 
 class DetailProductRepository extends IDetailProductRepository {
@@ -57,6 +59,17 @@ class DetailProductRepository extends IDetailProductRepository {
   Future<Either<String, Category>> getProductCategory(String categoryId) async {
     try {
       var response = await _datasource.getProductCategory(categoryId);
+      return right(response);
+    } on ApiException catch (ex) {
+      return left(ex.message ?? 'خطا محتوای متنی ندارد');
+    }
+  }
+
+  @override
+  Future<Either<String, List<Property>>> getProductProperties(
+      String productId) async {
+    try {
+      var response = await _datasource.getProductProperties(productId);
       return right(response);
     } on ApiException catch (ex) {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');

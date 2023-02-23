@@ -1,4 +1,5 @@
 import 'package:apple_shop/data/model/product_image.dart';
+import 'package:apple_shop/data/model/product_peroperty.dart';
 import 'package:apple_shop/data/model/product_variant.dart';
 import 'package:apple_shop/data/model/variant.dart';
 import 'package:apple_shop/data/model/variant_type.dart';
@@ -14,6 +15,7 @@ abstract class IDetailProductDatasource {
   Future<List<Variant>> getVariant(String productId);
   Future<List<ProductVarint>> getProductVariants(String productId);
   Future<Category> getProductCategory(String categoryId);
+  Future<List<Property>> getProductProperties(String productId);
 }
 
 class DetailProductRemoteDatasource extends IDetailProductDatasource {
@@ -99,6 +101,24 @@ class DetailProductRemoteDatasource extends IDetailProductDatasource {
       var reponse = await _dio.get('collections/category/records',
           queryParameters: qParams);
       return Category.fromMapJson(reponse.data['items'][0]);
+    } on DioError catch (ex) {
+      throw ApiException(ex.response?.statusCode, ex.response?.data['message']);
+    } catch (ex) {
+      throw ApiException(0, 'unknown erorr');
+    }
+  }
+  
+  @override
+  Future<List<Property>> getProductProperties(String productId) async {
+         try {
+      Map<String, String> qParams = {'filter': 'product_id="$productId"'};
+
+      var respones = await _dio.get('collections/properties/records',
+          queryParameters: qParams);
+
+      return respones.data['items']
+          .map<Property>((jsonObject) => Property.fromJson(jsonObject))
+          .toList();
     } on DioError catch (ex) {
       throw ApiException(ex.response?.statusCode, ex.response?.data['message']);
     } catch (ex) {
