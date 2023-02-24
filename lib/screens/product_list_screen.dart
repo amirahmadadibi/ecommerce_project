@@ -1,3 +1,4 @@
+import 'package:apple_shop/data/model/category.dart';
 import 'package:apple_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -5,9 +6,15 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import '../constants/colors.dart';
 
-class ProductListScreen extends StatelessWidget {
-  const ProductListScreen({super.key});
+class ProductListScreen extends StatefulWidget {
+  Category category;
+  ProductListScreen(this.category, {super.key});
 
+  @override
+  State<ProductListScreen> createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +39,11 @@ class ProductListScreen extends StatelessWidget {
                         width: 16,
                       ),
                       Image.asset('assets/images/icon_apple_blue.png'),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'پرفروش ترین ها',
+                          widget.category.title!,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'sb',
                               fontSize: 16,
                               color: CustomColors.blue),
