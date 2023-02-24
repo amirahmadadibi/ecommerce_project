@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 
 import '../../di/di.dart';
@@ -16,8 +18,14 @@ class CategoryProductRemoteDatasource extends ICategoryProductDatasource {
     try {
       Map<String, String> qParams = {'filter': 'category="$categoryId"'};
 
-      var respones = await _dio.get('collections/products/records',
-          queryParameters: qParams);
+      Response<dynamic> respones;
+
+      if (categoryId == '78q8w901e6iipuk') {
+        respones = await _dio.get('collections/products/records');
+      } else {
+        respones = await _dio.get('collections/products/records',
+            queryParameters: qParams);
+      }
 
       return respones.data['items']
           .map<Product>((jsonObject) => Product.fromJson(jsonObject))
