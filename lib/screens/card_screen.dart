@@ -1,4 +1,5 @@
 import 'package:apple_shop/constants/colors.dart';
+import 'package:apple_shop/util/extenstions/string_extenstions.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -194,7 +195,7 @@ class CardItem extends StatelessWidget {
                             ),
                             OptionCheap(
                               'آبی',
-                              color: '4287f5',
+                              color: 'eb34b4',
                             ),
                           ],
                         )
@@ -248,9 +249,6 @@ class OptionCheap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String categoryColor = 'ff${color}';
-    int hexColor = int.parse(categoryColor, radix: 16);
-
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: CustomColors.gery, width: 1),
@@ -273,7 +271,7 @@ class OptionCheap extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(hexColor),
+                  color: color.parseToColor(),
                 ),
               )
             },
