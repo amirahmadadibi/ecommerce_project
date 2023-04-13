@@ -3,6 +3,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get_it/get_it.dart';
 
 class CardScreen extends StatelessWidget {
   const CardScreen({super.key});
@@ -104,8 +105,20 @@ class CardItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('1'),
-                        Text('1'),
+                        Text(
+                          'ایفون ۱۳ پرومکس',
+                          style: TextStyle(fontFamily: 'sb', fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          'گارانتی فیلان ۱۸ ماهه',
+                          style: TextStyle(fontFamily: 'sm', fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -128,13 +141,61 @@ class CardItem extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Text('تومان'),
-                            Text('۴۹.۱۲۳.۱۲۳')
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text('تومان',
+                                style:
+                                    TextStyle(fontFamily: 'sm', fontSize: 12)),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text('۴۹.۱۲۳.۱۲۳',
+                                style:
+                                    TextStyle(fontFamily: 'sm', fontSize: 12))
                           ],
                         ),
+                        SizedBox(
+                          height: 12,
+                        ),
                         Wrap(
+                          spacing: 8,
                           children: [
-                            OptionCheap(),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: CustomColors.red, width: 1),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 2, bottom: 2, right: 8),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text('حذف',
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            fontFamily: 'sm',
+                                            fontSize: 12,
+                                            color: CustomColors.red)),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Image.asset('assets/images/icon_trash.png')
+                                  ],
+                                ),
+                              ),
+                            ),
+                            OptionCheap(
+                              'آبی',
+                              color: '4287f5',
+                            ),
                           ],
                         )
                       ],
@@ -163,11 +224,14 @@ class CardItem extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('تومان'),
+                Text('تومان', style: TextStyle(fontFamily: 'sb', fontSize: 16)),
                 SizedBox(
                   width: 5,
                 ),
-                Text('59.000.000'),
+                Text(
+                  '59.000.000',
+                  style: TextStyle(fontFamily: 'sb', fontSize: 16),
+                ),
               ],
             ),
           )
@@ -178,12 +242,15 @@ class CardItem extends StatelessWidget {
 }
 
 class OptionCheap extends StatelessWidget {
-  const OptionCheap({
-    Key? key,
-  }) : super(key: key);
+  String? color;
+  String title;
+  OptionCheap(this.title, {Key? key, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String categoryColor = 'ff${color}';
+    int hexColor = int.parse(categoryColor, radix: 16);
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: CustomColors.gery, width: 1),
@@ -192,15 +259,27 @@ class OptionCheap extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.only(top: 2, bottom: 2, right: 8),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/images/icon_options.png'),
             SizedBox(
               width: 10,
             ),
-            Text('1111111'),
+            if (color != null) ...{
+              Container(
+                width: 12,
+                height: 12,
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(hexColor),
+                ),
+              )
+            },
+            Text(title,
+                textDirection: TextDirection.rtl,
+                style: TextStyle(fontFamily: 'sm', fontSize: 12)),
           ],
         ),
       ),

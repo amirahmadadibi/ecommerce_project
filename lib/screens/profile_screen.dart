@@ -1,4 +1,4 @@
-import 'package:apple_shop/widgets/Category_icon_item_chip.dart';
+import 'package:apple_shop/widgets/category_icon_item_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

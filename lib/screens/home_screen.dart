@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants/colors.dart';
 import '../data/model/category.dart';
 import '../data/model/product.dart';
-import '../widgets/Category_icon_item_chip.dart';
+import '../widgets/category_icon_item_chip.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
 
