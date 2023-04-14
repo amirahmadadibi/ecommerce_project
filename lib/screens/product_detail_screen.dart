@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
+import 'package:apple_shop/data/model/card_item.dart';
 import 'package:apple_shop/data/model/product.dart';
 import 'package:apple_shop/data/model/product_peroperty.dart';
 import 'package:apple_shop/data/model/product_variant.dart';
@@ -12,6 +13,7 @@ import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../constants/colors.dart';
 import '../data/model/product.dart';
@@ -264,9 +266,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const EdgeInsets.only(top: 20, right: 44, left: 44),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         PriceTagButton(),
-                        AddToBasketButton(),
+                        AddToBasketButton(widget.product),
                       ],
                     ),
                   ),
@@ -621,7 +623,8 @@ class _GalleryWidgetState extends State<GalleryWidget> {
 }
 
 class AddToBasketButton extends StatelessWidget {
-  const AddToBasketButton({super.key});
+  Product product;
+  AddToBasketButton(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -642,14 +645,28 @@ class AddToBasketButton extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(15)),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                height: 53,
-                width: 160,
-                child: const Center(
-                  child: Text(
-                    'افزودن سبد خرید',
-                    style: TextStyle(
-                        fontFamily: 'sb', fontSize: 16, color: Colors.white),
+              child: GestureDetector(
+                onTap: () {
+                  var item = BasketItem(
+                      product.id,
+                      product.collectionId,
+                      product.thumbnail,
+                      product.discountPrice,
+                      product.price,
+                      product.name,
+                      product.categoryId);
+                  var box = Hive.box<BasketItem>('CardBox');
+                  box.add(item);
+                },
+                child: Container(
+                  height: 53,
+                  width: 160,
+                  child: const Center(
+                    child: Text(
+                      'افزودن سبد خرید',
+                      style: TextStyle(
+                          fontFamily: 'sb', fontSize: 16, color: Colors.white),
+                    ),
                   ),
                 ),
               ),

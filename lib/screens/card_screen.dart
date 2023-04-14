@@ -1,16 +1,21 @@
 import 'package:apple_shop/constants/colors.dart';
+import 'package:apple_shop/data/model/card_item.dart';
 import 'package:apple_shop/util/extenstions/string_extenstions.dart';
+import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class CardScreen extends StatelessWidget {
-  const CardScreen({super.key});
+  CardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box<BasketItem>('CardBox');
+
     return Scaffold(
         backgroundColor: CustomColors.backgroundScreenColor,
         body: SafeArea(
@@ -54,8 +59,8 @@ class CardScreen extends StatelessWidget {
                 ),
                 SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                  return CardItem();
-                }, childCount: 10)),
+                  return CardItem(box.values.toList()[index]);
+                }, childCount: box.values.length)),
                 SliverPadding(padding: EdgeInsets.only(bottom: 100))
               ],
             ),
@@ -80,7 +85,9 @@ class CardScreen extends StatelessWidget {
 }
 
 class CardItem extends StatelessWidget {
-  const CardItem({
+  BasketItem basketItem;
+  CardItem(
+    this.basketItem, {
     Key? key,
   }) : super(key: key);
 
@@ -205,7 +212,10 @@ class CardItem extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: Image.asset('assets/images/iphone.png'),
+                  child: SizedBox(
+                      height: 104,
+                      width: 75,
+                      child: CachedImage(imageUrl: basketItem.thumbnail)),
                 )
               ],
             ),
