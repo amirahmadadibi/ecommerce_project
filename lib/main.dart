@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:apple_shop/bloc/basket/baset_event.dart';
+import 'package:apple_shop/bloc/basket/basket_bloc.dart';
 import 'package:apple_shop/bloc/category/category_bloc.dart';
 import 'package:apple_shop/bloc/home/home_bloc.dart';
 import 'package:apple_shop/constants/colors.dart';
@@ -137,7 +139,14 @@ class _MyAppState extends State<MyApp> {
   List<Widget> getScreens() {
     return <Widget>[
       ProfileScreen(),
-      CardScreen(),
+      BlocProvider(
+        create: ((context) {
+          var bloc = BasketBloc();
+          bloc.add(BasketFetchFromHiveEvent());
+          return bloc;
+        }),
+        child: CardScreen(),
+      ),
       BlocProvider(
         create: (context) => CategoryBloc(),
         child: CategoryScreen(),

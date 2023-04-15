@@ -4,6 +4,7 @@ import '../model/card_item.dart';
 
 abstract class IBasketDatasource {
   Future<void> addProduct(BasketItem basketItem);
+  Future<List<BasketItem>> getAllBasketItems();
 }
 
 class BasketLocalDatasouce extends IBasketDatasource {
@@ -12,5 +13,10 @@ class BasketLocalDatasouce extends IBasketDatasource {
   @override
   Future<void> addProduct(BasketItem basketItem) async {
     box.add(basketItem);
+  }
+
+  @override
+  Future<List<BasketItem>> getAllBasketItems() async {
+    return box.values.toList();
   }
 }
