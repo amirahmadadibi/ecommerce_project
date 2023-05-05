@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:apple_shop/bloc/basket/baset_event.dart';
+import 'package:apple_shop/bloc/basket/basket_bloc.dart';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
@@ -31,11 +33,28 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
-  void initState() {
-    BlocProvider.of<ProductBloc>(context).add(
-        ProductInitializeEvent(widget.product.id, widget.product.categoryId));
-    super.initState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: ((context) {
+        var bloc = ProductBloc();
+        bloc.add(ProductInitializeEvent(
+            widget.product.id, widget.product.categoryId));
+        return bloc;
+      }),
+      child: DetailContentWidget(
+        parentWidget: widget,
+      ),
+    );
   }
+}
+
+class DetailContentWidget extends StatelessWidget {
+  const DetailContentWidget({
+    Key? key,
+    required this.parentWidget,
+  }) : super(key: key);
+
+  final ProductDetailScreen parentWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +128,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      widget.product.name,
+                      parentWidget.product.name,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontFamily: 'sb', fontSize: 16, color: Colors.black),
@@ -123,7 +142,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     );
                   }, (productImageList) {
                     return GalleryWidget(
-                        widget.product.thumbnail, productImageList);
+                        parentWidget.product.thumbnail, productImageList);
                   })
                 },
                 if (state is ProductDetailResponseState) ...{
@@ -144,7 +163,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     return ProductProperties(propertyList);
                   })
                 },
-                ProductDescription(widget.product.description),
+                ProductDescription(parentWidget.product.description),
                 SliverToBoxAdapter(
                   child: Container(
                     margin: const EdgeInsets.only(top: 24, left: 44, right: 44),
@@ -268,7 +287,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         PriceTagButton(),
-                        AddToBasketButton(widget.product),
+                        AddToBasketButton(parentWidget.product),
                       ],
                     ),
                   ),
@@ -648,6 +667,7 @@ class AddToBasketButton extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   context.read<ProductBloc>().add(ProductAddToBasket(product));
+                  context.read<BasketBloc>().add(BasketFetchFromHiveEvent());
                 },
                 child: Container(
                   height: 53,
