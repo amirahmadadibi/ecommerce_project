@@ -79,23 +79,27 @@ class CardScreen extends StatelessWidget {
                     SliverPadding(padding: EdgeInsets.only(bottom: 100))
                   ],
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 44, right: 44, bottom: 20),
-                  child: SizedBox(
-                    height: 53,
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            textStyle:
-                                TextStyle(fontSize: 18, fontFamily: 'sm'),
-                            backgroundColor: CustomColors.green,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15))),
-                        onPressed: () {},
-                        child: Text('ادامه فرایند خرید')),
-                  ),
-                )
+                if (state is BasketDataFetchedState) ...{
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 44, right: 44, bottom: 20),
+                    child: SizedBox(
+                      height: 53,
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              textStyle:
+                                  TextStyle(fontSize: 18, fontFamily: 'sm'),
+                              backgroundColor: CustomColors.green,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          onPressed: () {},
+                          child: Text((state.basketFinalPrice == 0)
+                              ? 'سبد خرید شما خالیه '
+                              : '${state.basketFinalPrice}')),
+                    ),
+                  )
+                }
               ],
             );
           }),
@@ -133,7 +137,7 @@ class CardItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'ایفون ۱۳ پرومکس',
+                          basketItem.name,
                           style: TextStyle(fontFamily: 'sb', fontSize: 16),
                         ),
                         SizedBox(
@@ -259,7 +263,7 @@ class CardItem extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  '59.000.000',
+                  '${basketItem.realPrice}',
                   style: TextStyle(fontFamily: 'sb', fontSize: 16),
                 ),
               ],
