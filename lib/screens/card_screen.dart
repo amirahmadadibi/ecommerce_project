@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:apple_shop/bloc/basket/baset_event.dart';
 import 'package:apple_shop/bloc/basket/basket_bloc.dart';
 import 'package:apple_shop/bloc/basket/basket_state.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zarinpal/zarinpal.dart';
 
@@ -32,6 +35,21 @@ class _CardScreenState extends State<CardScreen> {
     _paymentRequest.setDescription('this is for test application apple shop');
     _paymentRequest.setMerchantID('d645fba8-1b29-11ea-be59-000c295eb8fc');
     _paymentRequest.setCallbackURL('expertflutter://shop');
+
+    linkStream.listen((deeplink) {
+      if (deeplink!.toLowerCase().contains('authority')) {
+        String? authority = _extractValueFromQuery(deeplink, 'Authority');
+        String? status = _extractValueFromQuery(deeplink, 'Status');
+        ZarinPal().verificationPayment(status!, authority!, _paymentRequest,
+            (isPaymentSuccess, refID, paymentRequest) {
+          if (isPaymentSuccess) {
+            print(refID);
+          } else {
+            print('error');
+          }
+        });
+      }
+    });
   }
 
   @override
@@ -342,4 +360,32 @@ class OptionCheap extends StatelessWidget {
       ),
     );
   }
+}
+
+//expertflutter://shop?authority=13232432342344342&status=ok
+String? _extractValueFromQuery(String url, String key) {
+  // Remove everything before the question mark
+  int queryStartIndex = url.indexOf('?');
+  if (queryStartIndex == -1) return null;
+
+  String query = url.substring(queryStartIndex + 1);
+
+  // Split the query into key-value pairs
+  List<String> pairs = query.split('&');
+
+  // Find the key-value pair that matches the given key
+  for (String pair in pairs) {
+    List<String> keyValue = pair.split('=');
+    if (keyValue.length == 2) {
+      String currentKey = keyValue[0];
+      String value = keyValue[1];
+
+      if (currentKey == key) {
+        // Decode the URL-encoded value
+        return Uri.decodeComponent(value);
+      }
+    }
+  }
+
+  return null;
 }
