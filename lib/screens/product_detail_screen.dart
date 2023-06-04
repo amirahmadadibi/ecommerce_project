@@ -822,7 +822,7 @@ class _ColorVarinantListState extends State<ColorVarinantList> {
                         ? Border.all(
                             width: 1,
                             color: CustomColors.blueIndicator,
-                            strokeAlign: StrokeAlign.outside)
+                            strokeAlign: BorderSide.strokeAlignOutside)
                         : Border.all(width: 2, color: Colors.white),
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.circular(8)),

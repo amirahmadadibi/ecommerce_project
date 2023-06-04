@@ -10,11 +10,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:zarinpal/zarinpal.dart';
 
-class CardScreen extends StatelessWidget {
+class CardScreen extends StatefulWidget {
   CardScreen({super.key});
+
+  @override
+  State<CardScreen> createState() => _CardScreenState();
+}
+
+class _CardScreenState extends State<CardScreen> {
+  PaymentRequest _paymentRequest = PaymentRequest();
+
+  @override
+  void initState() {
+    super.initState();
+    _paymentRequest.setIsSandBox(true);
+    _paymentRequest.setAmount(1000);
+    _paymentRequest.setDescription('this is for test application apple shop');
+    _paymentRequest.setCallbackURL('expertflutter://shop');
+  }
 
   @override
   Widget build(BuildContext context) {
