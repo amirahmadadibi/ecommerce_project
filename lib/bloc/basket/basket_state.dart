@@ -1,4 +1,3 @@
-import 'package:apple_shop/bloc/basket/baset_event.dart';
 import 'package:apple_shop/data/model/card_item.dart';
 import 'package:dartz/dartz.dart';
 

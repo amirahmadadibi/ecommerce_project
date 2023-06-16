@@ -110,8 +110,8 @@ class CardScreen extends StatelessWidget {
 }
 
 class CardItem extends StatelessWidget {
-  BasketItem basketItem;
-  CardItem(
+  final BasketItem basketItem;
+  const CardItem(
     this.basketItem, {
     Key? key,
   }) : super(key: key);
@@ -198,7 +198,7 @@ class CardItem extends StatelessWidget {
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     color: CustomColors.red, width: 1),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(10),
                                 ),
                               ),
@@ -208,16 +208,16 @@ class CardItem extends StatelessWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Text('حذف',
+                                    const Text('حذف',
                                         textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                             fontFamily: 'sm',
                                             fontSize: 12,
                                             color: CustomColors.red)),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 4,
                                     ),
                                     Image.asset('assets/images/icon_trash.png')
@@ -278,9 +278,9 @@ class CardItem extends StatelessWidget {
 }
 
 class OptionCheap extends StatelessWidget {
-  String? color;
-  String title;
-  OptionCheap(this.title, {Key? key, this.color}) : super(key: key);
+  final String? color;
+  final String title;
+  const OptionCheap(this.title, {Key? key, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

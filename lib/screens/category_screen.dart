@@ -1,7 +1,6 @@
 import 'package:apple_shop/bloc/category/category_bloc.dart';
 import 'package:apple_shop/bloc/category/category_event.dart';
 import 'package:apple_shop/bloc/category/category_state.dart';
-import 'package:apple_shop/data/repository/category_repository.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +74,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     child: Center(child: Text(l)),
                   );
                 }, (r) {
-                  return _listCategory(
+                  return ListCategory(
                     list: r,
                   );
                 });
@@ -91,9 +90,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 }
 
-class _listCategory extends StatelessWidget {
-  List<Category>? list;
-  _listCategory({Key? key, required this.list}) : super(key: key);
+class ListCategory extends StatelessWidget {
+  final List<Category>? list;
+  const ListCategory({Key? key, required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
