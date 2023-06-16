@@ -13,19 +13,35 @@ import 'package:apple_shop/data/repository/category_product_repository.dart';
 import 'package:apple_shop/data/repository/category_repository.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/data/repository/product_repository.dart';
+import 'package:apple_shop/util/pyament_handler.dart';
+import 'package:apple_shop/util/url_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var locator = GetIt.instance;
 Future<void> getItInit() async {
-  //componenets
+  await _initComponents();
+
+  _initDatasoruces();
+
+  _initRepositories();
+
+  locator
+      .registerSingleton<BasketBloc>(BasketBloc(locator.get(), locator.get()));
+}
+
+Future<void> _initComponents() async {
+  locator.registerSingleton<UrlHandler>(UrlLauncher());
+  locator
+      .registerSingleton<PaymentHandler>(ZarinpalPaymentHandler(locator.get()));
   locator.registerSingleton<Dio>(
       Dio(BaseOptions(baseUrl: 'http://startflutter.ir/api/')));
-
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
-  //datasources
+}
+
+void _initDatasoruces() {
   locator
       .registerFactory<IAuthenticationDatasource>(() => AuthenticationRemote());
   locator
@@ -37,7 +53,9 @@ Future<void> getItInit() async {
   locator.registerFactory<ICategoryProductDatasource>(
       () => CategoryProductRemoteDatasource());
   locator.registerFactory<IBasketDatasource>(() => BasketLocalDatasouce());
-  //repositories
+}
+
+void _initRepositories() {
   locator.registerFactory<IAuthRepository>(() => AuthencticationRepository());
   locator.registerFactory<ICategoryRepository>(() => CategoryRepository());
   locator.registerFactory<IBannerRepository>(() => BannerRepository());
@@ -47,7 +65,4 @@ Future<void> getItInit() async {
   locator.registerFactory<ICategoryProductRepository>(
       () => CategoryProductRepository());
   locator.registerFactory<IBasketRepository>(() => BasketRepository());
-
-  //bloc
-  locator.registerSingleton<BasketBloc>(BasketBloc());
 }

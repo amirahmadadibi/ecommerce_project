@@ -13,7 +13,8 @@ class ZarinpalPaymentHandler extends PaymentHandler {
   final PaymentRequest _paymentRequest = PaymentRequest();
   String? _authority;
   String? _status;
-  UrlHandler urlHandler = UrlLauncher();
+  UrlHandler urlHandler;
+  ZarinpalPaymentHandler(this.urlHandler);
 
   @override
   Future<void> initPaymentRequest() async {
