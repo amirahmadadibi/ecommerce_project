@@ -1,3 +1,6 @@
+import 'package:apple_shop/util/extenstions/string_extenstions.dart';
+import 'package:apple_shop/util/url_handler.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:zarinpal/zarinpal.dart';
 
 abstract class PaymentHandler {
@@ -7,9 +10,10 @@ abstract class PaymentHandler {
 }
 
 class ZarinpalPaymentHandler extends PaymentHandler {
-  PaymentRequest _paymentRequest = PaymentRequest();
-  String? authority;
-  String? status;
+  final PaymentRequest _paymentRequest = PaymentRequest();
+  String? _authority;
+  String? _status;
+  UrlHandler urlHandler = UrlLauncher();
 
   @override
   Future<void> initPaymentRequest() async {
@@ -18,21 +22,27 @@ class ZarinpalPaymentHandler extends PaymentHandler {
     _paymentRequest.setDescription('this is for test application apple shop');
     _paymentRequest.setMerchantID('d645fba8-1b29-11ea-be59-000c295eb8fc');
     _paymentRequest.setCallbackURL('expertflutter://shop');
+    linkStream.listen((deeplink) {
+      if (deeplink!.toLowerCase().contains('authority')) {
+        _authority = deeplink.extractValueFromQuery('Authority');
+        _status = deeplink.extractValueFromQuery('Status');
+        verifyPaymentRequest();
+      }
+    });
   }
 
   @override
   Future<void> sendPaymentRequest() async {
     ZarinPal().startPayment(_paymentRequest, (status, paymentGatewayUri) {
       if (status == 100) {
-        // launchUrl(Uri.parse(paymentGatewayUri!),
-        //     mode: LaunchMode.externalApplication);
+        urlHandler.openUrl(paymentGatewayUri!);
       }
     });
   }
 
   @override
   Future<void> verifyPaymentRequest() async {
-    ZarinPal().verificationPayment(status!, authority!, _paymentRequest,
+    ZarinPal().verificationPayment(_status!, _authority!, _paymentRequest,
         (isPaymentSuccess, refID, paymentRequest) {
       if (isPaymentSuccess) {
         print(refID);
@@ -43,21 +53,13 @@ class ZarinpalPaymentHandler extends PaymentHandler {
   }
 }
 
-
-class PapalPaymentHandler extends PaymentHandler{
+class PapalPaymentHandler extends PaymentHandler {
   @override
-  Future<void> initPaymentRequest() async {
-
-  }
+  Future<void> initPaymentRequest() async {}
 
   @override
-  Future<void> sendPaymentRequest() async  {
-  
-  }
+  Future<void> sendPaymentRequest() async {}
 
   @override
-  Future<void> verifyPaymentRequest() async {
-  
-  }
-
+  Future<void> verifyPaymentRequest() async {}
 }
