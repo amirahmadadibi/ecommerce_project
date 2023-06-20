@@ -4,6 +4,7 @@ import 'package:apple_shop/bloc/home/home_state.dart';
 import 'package:apple_shop/data/model/banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import '../constants/colors.dart';
 import '../data/model/category.dart';
 import '../data/model/product.dart';
@@ -32,66 +33,77 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: CustomColors.backgroundScreenColor,
       body: SafeArea(child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          return CustomScrollView(
-            slivers: [
-              if (state is HomeLoadingState) ...{
-                SliverToBoxAdapter(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ],
-                  ),
-                )
-              } else ...{
-                _getSearchBox(),
-                if (state is HomeRequestSuccessState) ...[
-                  state.bannerList.fold((exceptionMessage) {
-                    return SliverToBoxAdapter(child: Text(exceptionMessage));
-                  }, (listBanners) {
-                    return _getBanners(listBanners);
-                  })
-                ],
-                _getCategoryListTitle(),
-                if (state is HomeRequestSuccessState) ...[
-                  state.categoryList.fold((exceptionMessage) {
-                    return SliverToBoxAdapter(child: Text(exceptionMessage));
-                  }, (categoryList) {
-                    return _getCategoryList(categoryList);
-                  })
-                ],
-                const _getBestSellerTitle(),
-                if (state is HomeRequestSuccessState) ...[
-                  state.bestSellerProductList.fold((exceptionMessage) {
-                    return SliverToBoxAdapter(child: Text(exceptionMessage));
-                  }, (productList) {
-                    return _getBestSellerProducts(productList);
-                  })
-                ],
-                const _getMostViewedTitle(),
-                if (state is HomeRequestSuccessState) ...[
-                  state.hotestProductList.fold((exceptionMessage) {
-                    return SliverToBoxAdapter(child: Text(exceptionMessage));
-                  }, (productList) {
-                    return _getMostViewedProduct(productList);
-                  })
-                ]
-              },
-            ],
-          );
+          return _getHomeScreenContent(state);
         },
       )),
     );
   }
 }
 
+Widget _getHomeScreenContent(HomeState state) {
+  if (state is HomeLoadingState) {
+    return const Center(
+      child: LoadingAnimation(),
+    );
+  } else if (state is HomeRequestSuccessState) {
+    return CustomScrollView(
+      slivers: [
+        const _getSearchBox(),
+        state.bannerList.fold((exceptionMessage) {
+          return SliverToBoxAdapter(child: Text(exceptionMessage));
+        }, (listBanners) {
+          return _getBanners(listBanners);
+        }),
+        const _getCategoryListTitle(),
+        state.categoryList.fold((exceptionMessage) {
+          return SliverToBoxAdapter(child: Text(exceptionMessage));
+        }, (categoryList) {
+          return _getCategoryList(categoryList);
+        }),
+        const _getBestSellerTitle(),
+        state.bestSellerProductList.fold((exceptionMessage) {
+          return SliverToBoxAdapter(child: Text(exceptionMessage));
+        }, (productList) {
+          return _getBestSellerProducts(productList);
+        }),
+        const _getMostViewedTitle(),
+        state.hotestProductList.fold((exceptionMessage) {
+          return SliverToBoxAdapter(child: Text(exceptionMessage));
+        }, (productList) {
+          return _getMostViewedProduct(productList);
+        })
+      ],
+    );
+  } else {
+    return const Center(
+      child: Text('خطایی در دریافت اطلاعات به وجود آمده!'),
+    );
+  }
+}
+
+class LoadingAnimation extends StatelessWidget {
+  const LoadingAnimation({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      width: 60,
+      child: Center(
+        child: LoadingIndicator(
+          indicatorType: Indicator.ballRotateChase,
+          colors: [CustomColors.blue],
+          strokeWidth: 0.1,
+        ),
+      ),
+    );
+  }
+}
+
 class _getMostViewedProduct extends StatelessWidget {
-  List<Product> productList;
+  final List<Product> productList;
   _getMostViewedProduct(
     this.productList, {
     Key? key,
