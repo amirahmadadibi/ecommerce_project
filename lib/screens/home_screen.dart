@@ -1,10 +1,10 @@
 import 'package:apple_shop/bloc/home/home_bloc.dart';
-import 'package:apple_shop/bloc/home/home_event.dart';
 import 'package:apple_shop/bloc/home/home_state.dart';
 import 'package:apple_shop/data/model/banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import '../bloc/home/home_event.dart';
 import '../constants/colors.dart';
 import '../data/model/category.dart';
 import '../data/model/product.dart';
@@ -12,20 +12,8 @@ import '../widgets/category_icon_item_chip.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    BlocProvider.of<HomeBloc>(context).add(HomeGetInitilzeData());
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,46 +21,51 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: CustomColors.backgroundScreenColor,
       body: SafeArea(child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          return _getHomeScreenContent(state);
+          return _getHomeScreenContent(state, context);
         },
       )),
     );
   }
 }
 
-Widget _getHomeScreenContent(HomeState state) {
+Widget _getHomeScreenContent(HomeState state, BuildContext context) {
   if (state is HomeLoadingState) {
     return const Center(
       child: LoadingAnimation(),
     );
   } else if (state is HomeRequestSuccessState) {
-    return CustomScrollView(
-      slivers: [
-        const _getSearchBox(),
-        state.bannerList.fold((exceptionMessage) {
-          return SliverToBoxAdapter(child: Text(exceptionMessage));
-        }, (listBanners) {
-          return _getBanners(listBanners);
-        }),
-        const _getCategoryListTitle(),
-        state.categoryList.fold((exceptionMessage) {
-          return SliverToBoxAdapter(child: Text(exceptionMessage));
-        }, (categoryList) {
-          return _getCategoryList(categoryList);
-        }),
-        const _getBestSellerTitle(),
-        state.bestSellerProductList.fold((exceptionMessage) {
-          return SliverToBoxAdapter(child: Text(exceptionMessage));
-        }, (productList) {
-          return _getBestSellerProducts(productList);
-        }),
-        const _getMostViewedTitle(),
-        state.hotestProductList.fold((exceptionMessage) {
-          return SliverToBoxAdapter(child: Text(exceptionMessage));
-        }, (productList) {
-          return _getMostViewedProduct(productList);
-        })
-      ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<HomeBloc>().add(HomeGetInitilzeData());
+      },
+      child: CustomScrollView(
+        slivers: [
+          const _getSearchBox(),
+          state.bannerList.fold((exceptionMessage) {
+            return SliverToBoxAdapter(child: Text(exceptionMessage));
+          }, (listBanners) {
+            return _getBanners(listBanners);
+          }),
+          const _getCategoryListTitle(),
+          state.categoryList.fold((exceptionMessage) {
+            return SliverToBoxAdapter(child: Text(exceptionMessage));
+          }, (categoryList) {
+            return _getCategoryList(categoryList);
+          }),
+          const _getBestSellerTitle(),
+          state.bestSellerProductList.fold((exceptionMessage) {
+            return SliverToBoxAdapter(child: Text(exceptionMessage));
+          }, (productList) {
+            return _getBestSellerProducts(productList);
+          }),
+          const _getMostViewedTitle(),
+          state.hotestProductList.fold((exceptionMessage) {
+            return SliverToBoxAdapter(child: Text(exceptionMessage));
+          }, (productList) {
+            return _getMostViewedProduct(productList);
+          })
+        ],
+      ),
     );
   } else {
     return const Center(

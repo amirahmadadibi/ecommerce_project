@@ -13,18 +13,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'bloc/home/home_event.dart';
 import 'di/di.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
 
   await Hive.initFlutter();
   Hive.registerAdapter(BasketItemAdapter());
   await Hive.openBox<BasketItem>('CardBox');
 
   await getItInit();
-
 
   runApp(const MyApp());
 }
@@ -158,7 +157,11 @@ class _MyAppState extends State<MyApp> {
       Directionality(
         textDirection: TextDirection.rtl,
         child: BlocProvider(
-          create: (context) => HomeBloc(),
+          create: (context) {
+            var bloc = HomeBloc();
+            bloc.add(HomeGetInitilzeData());
+            return bloc;
+          },
           child: HomeScreen(),
         ),
       )
