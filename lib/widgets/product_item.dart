@@ -3,9 +3,11 @@ import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/data/model/product.dart';
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/screens/product_detail_screen.dart';
+import 'package:apple_shop/util/extenstions/double_extenstions.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../constants/colors.dart';
 
@@ -133,16 +135,16 @@ class ProductItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              product.price.toString(),
-                              style: TextStyle(
+                              product.price.convertToPrice(),
+                              style: const TextStyle(
                                   fontFamily: 'sm',
                                   fontSize: 12,
                                   color: Colors.white,
                                   decoration: TextDecoration.lineThrough),
                             ),
                             Text(
-                              product.realPrice.toString(),
-                              style: TextStyle(
+                              product.realPrice.convertToPrice(),
+                              style: const TextStyle(
                                 fontFamily: 'sm',
                                 fontSize: 16,
                                 color: Colors.white,
