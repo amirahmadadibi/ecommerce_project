@@ -10,6 +10,7 @@ import '../data/model/category.dart';
 import '../data/model/product.dart';
 import '../widgets/category_icon_item_chip.dart';
 import '../widgets/banner_slider.dart';
+import '../widgets/loading_animation.dart';
 import '../widgets/product_item.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -74,26 +75,7 @@ Widget _getHomeScreenContent(HomeState state, BuildContext context) {
   }
 }
 
-class LoadingAnimation extends StatelessWidget {
-  const LoadingAnimation({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      width: 60,
-      child: Center(
-        child: LoadingIndicator(
-          indicatorType: Indicator.ballRotateChase,
-          colors: [CustomColors.blue],
-          strokeWidth: 0.1,
-        ),
-      ),
-    );
-  }
-}
 
 class _getMostViewedProduct extends StatelessWidget {
   final List<Product> productList;
