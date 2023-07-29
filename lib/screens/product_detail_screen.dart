@@ -363,7 +363,48 @@ class CommentBottomsheet extends StatelessWidget {
               return SliverList(
                   delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return Text(commentList[index].text);
+                  return Container(
+                    padding: const EdgeInsets.all(16),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                commentList[index].username,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.end,
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                commentList[index].text,
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: CachedImage(
+                            imageUrl: commentList[index].userThumbnailUrl,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
                 },
                 childCount: commentList.length,
               ));
