@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:apple_shop/bloc/basket/baset_event.dart';
 import 'package:apple_shop/bloc/basket/basket_bloc.dart';
+import 'package:apple_shop/bloc/comment/bloc/comment_bloc.dart';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
@@ -166,119 +167,143 @@ class DetailContentWidget extends StatelessWidget {
                 },
                 if (state is ProductDetailResponseState) ...{
                   SliverToBoxAdapter(
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(top: 24, left: 44, right: 44),
-                      height: 46,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border:
-                              Border.all(width: 1, color: CustomColors.gery),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15))),
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Image.asset('assets/images/icon_left_categroy.png'),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            'مشاهده',
-                            style: TextStyle(
-                                fontFamily: 'sb',
-                                fontSize: 12,
-                                color: CustomColors.blue),
-                          ),
-                          const Spacer(),
-                          Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 10),
-                                height: 26,
-                                width: 26,
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return BlocProvider(
+                                create: (context) {
+                                  final bloc = CommentBloc(locator.get());
+                                  bloc.add(CommentInitilzeEvent(
+                                      parentWidget.product.id));
+                                  return bloc;
+                                },
+                                child: DraggableScrollableSheet(
+                                  initialChildSize: 0.5,
+                                  minChildSize: 0.2,
+                                  maxChildSize: 0.7,
+                                  builder: (context, conroller) {
+                                    return CommentBottomsheet(conroller);
+                                  },
                                 ),
-                              ),
-                              Positioned(
-                                right: 15,
-                                child: Container(
+                              );
+                            });
+                      },
+                      child: Container(
+                        margin:
+                            const EdgeInsets.only(top: 24, left: 44, right: 44),
+                        height: 46,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border:
+                                Border.all(width: 1, color: CustomColors.gery),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15))),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Image.asset('assets/images/icon_left_categroy.png'),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              'مشاهده',
+                              style: TextStyle(
+                                  fontFamily: 'sb',
+                                  fontSize: 12,
+                                  color: CustomColors.blue),
+                            ),
+                            const Spacer(),
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
                                   margin: const EdgeInsets.only(left: 10),
                                   height: 26,
                                   width: 26,
                                   decoration: const BoxDecoration(
-                                    color: Colors.green,
+                                    color: Colors.red,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8)),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                right: 30,
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 10),
-                                  height: 26,
-                                  width: 26,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.yellow,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
+                                Positioned(
+                                  right: 15,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    height: 26,
+                                    width: 26,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                right: 45,
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 10),
-                                  height: 26,
-                                  width: 26,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
+                                Positioned(
+                                  right: 30,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    height: 26,
+                                    width: 26,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.yellow,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                right: 60,
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 10),
-                                  height: 26,
-                                  width: 26,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
+                                Positioned(
+                                  right: 45,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    height: 26,
+                                    width: 26,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
                                   ),
-                                  child: const Center(
-                                      child: Text(
-                                    '+10',
-                                    style: TextStyle(
-                                        fontFamily: 'sb',
-                                        fontSize: 12,
-                                        color: Colors.white),
-                                  )),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            ': نظرات کاربران',
-                            style: TextStyle(fontFamily: 'sm'),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
+                                Positioned(
+                                  right: 60,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    height: 26,
+                                    width: 26,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
+                                    child: const Center(
+                                        child: Text(
+                                      '+10',
+                                      style: TextStyle(
+                                          fontFamily: 'sb',
+                                          fontSize: 12,
+                                          color: Colors.white),
+                                    )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              ': نظرات کاربران',
+                              style: TextStyle(fontFamily: 'sm'),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -304,6 +329,49 @@ class DetailContentWidget extends StatelessWidget {
         }),
       ),
     );
+  }
+}
+
+class CommentBottomsheet extends StatelessWidget {
+  CommentBottomsheet(
+    this.controller, {
+    super.key,
+  });
+  ScrollController controller;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
+      if (state is CommentLoading) {
+        return Center(
+          child: LoadingAnimation(),
+        );
+      }
+      return CustomScrollView(
+        controller: controller,
+        slivers: [
+          if (state is CommentResponse) ...{
+            state.response.fold((l) {
+              return const SliverToBoxAdapter(
+                child: Text('is loading'),
+              );
+            }, (commentList) {
+              if (commentList.isEmpty) {
+                return const SliverToBoxAdapter(
+                  child: Center(child: Text('نظری برای این محصول ثبت نشده')),
+                );
+              }
+              return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return Text(commentList[index].text);
+                },
+                childCount: commentList.length,
+              ));
+            })
+          },
+        ],
+      );
+    });
   }
 }
 
