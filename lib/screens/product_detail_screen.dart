@@ -6,28 +6,24 @@ import 'package:apple_shop/bloc/comment/bloc/comment_bloc.dart';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
-import 'package:apple_shop/data/model/card_item.dart';
 import 'package:apple_shop/data/model/product.dart';
 import 'package:apple_shop/data/model/product_peroperty.dart';
 import 'package:apple_shop/data/model/product_variant.dart';
 import 'package:apple_shop/data/model/variant_type.dart';
-import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:apple_shop/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../constants/colors.dart';
-import '../data/model/product.dart';
 import '../data/model/product_image.dart';
 import '../data/model/variant.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  Product product;
+  final Product product;
 
-  ProductDetailScreen(this.product, {super.key});
+  const ProductDetailScreen(this.product, {super.key});
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -316,7 +312,7 @@ class DetailContentWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PriceTagButton(),
+                          const PriceTagButton(),
                           AddToBasketButton(parentWidget.product),
                         ],
                       ),
@@ -333,16 +329,18 @@ class DetailContentWidget extends StatelessWidget {
 }
 
 class CommentBottomsheet extends StatelessWidget {
-  CommentBottomsheet(
+  const CommentBottomsheet(
     this.controller, {
     super.key,
   });
-  ScrollController controller;
+
+  final ScrollController controller;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
       if (state is CommentLoading) {
-        return Center(
+        return const Center(
           child: LoadingAnimation(),
         );
       }
@@ -352,7 +350,7 @@ class CommentBottomsheet extends StatelessWidget {
           if (state is CommentResponse) ...{
             state.response.fold((l) {
               return const SliverToBoxAdapter(
-                child: Text('is loading'),
+                child: Text('خطایی در نمایش نظرات به وجود آمده'),
               );
             }, (commentList) {
               if (commentList.isEmpty) {
@@ -378,8 +376,11 @@ class CommentBottomsheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                commentList[index].username,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                (commentList[index].username.isEmpty)
+                                    ? 'کاربر'
+                                    : commentList[index].username,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.end,
                               ),
                               const SizedBox(
@@ -398,9 +399,11 @@ class CommentBottomsheet extends StatelessWidget {
                         SizedBox(
                           height: 40,
                           width: 40,
-                          child: CachedImage(
-                            imageUrl: commentList[index].userThumbnailUrl,
-                          ),
+                          child: (commentList[index].avatar.isNotEmpty)
+                              ? CachedImage(
+                                  imageUrl: commentList[index].userThumbnailUrl,
+                                )
+                              : Image.asset('assets/images/avatar.png'),
                         )
                       ],
                     ),
@@ -692,7 +695,7 @@ class _GalleryWidgetState extends State<GalleryWidget> {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       SizedBox(
                         height: 200,
                         width: 200,
@@ -844,10 +847,10 @@ class PriceTagButton extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             '۴۹،۸۰۰،۰۰۰',
                             style: TextStyle(
