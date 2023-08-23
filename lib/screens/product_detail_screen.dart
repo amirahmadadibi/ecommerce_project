@@ -167,6 +167,10 @@ class DetailContentWidget extends StatelessWidget {
                       onTap: () {
                         showModalBottomSheet(
                             context: context,
+                            isScrollControlled: true,
+                            isDismissible: true,
+                            useSafeArea: true,
+                            showDragHandle: true,
                             builder: (context) {
                               return BlocProvider(
                                 create: (context) {
@@ -175,16 +179,8 @@ class DetailContentWidget extends StatelessWidget {
                                       parentWidget.product.id));
                                   return bloc;
                                 },
-                                child: DraggableScrollableSheet(
-                                  initialChildSize: 0.5,
-                                  minChildSize: 0.2,
-                                  maxChildSize: 0.7,
-                                  builder: (context, conroller) {
-                                    return CommentBottomsheet(
-                                      conroller,
-                                      productId: parentWidget.product.id,
-                                    );
-                                  },
+                                child: CommentBottomsheet(
+                                  productId: parentWidget.product.id,
                                 ),
                               );
                             });
@@ -332,13 +328,11 @@ class DetailContentWidget extends StatelessWidget {
 }
 
 class CommentBottomsheet extends StatelessWidget {
-  CommentBottomsheet(
-    this.controller, {
+  CommentBottomsheet({
     required this.productId,
     super.key,
   });
   final String productId;
-  final ScrollController controller;
   final TextEditingController textController = TextEditingController();
 
   @override
@@ -353,7 +347,6 @@ class CommentBottomsheet extends StatelessWidget {
         children: [
           Expanded(
             child: CustomScrollView(
-              controller: controller,
               slivers: [
                 if (state is CommentResponse) ...{
                   state.response.fold((l) {
