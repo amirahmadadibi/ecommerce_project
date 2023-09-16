@@ -7,6 +7,7 @@ abstract class IBasketRepository {
   Future<Either<String, String>> addProductToBasket(BasketItem basketItem);
   Future<Either<String, List<BasketItem>>> getAllBasketItems();
   Future<int> getBasketFinalPrice();
+  Future<void> removeProduct(int index);
 }
 
 class BasketRepository extends IBasketRepository {
@@ -36,5 +37,10 @@ class BasketRepository extends IBasketRepository {
   @override
   Future<int> getBasketFinalPrice() async {
     return datasource.getBasketFinalPrice();
+  }
+
+  @override
+  Future<void> removeProduct(int index) async {
+    datasource.removeProduct(index);
   }
 }

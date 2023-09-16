@@ -3,6 +3,7 @@ import 'package:apple_shop/bloc/basket/basket_bloc.dart';
 import 'package:apple_shop/bloc/basket/basket_state.dart';
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/data/model/card_item.dart';
+import 'package:apple_shop/util/extenstions/double_extenstions.dart';
 import 'package:apple_shop/util/extenstions/string_extenstions.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -65,7 +66,7 @@ class CardScreen extends StatelessWidget {
                         return SliverList(
                           delegate:
                               SliverChildBuilderDelegate((context, index) {
-                            return CardItem(basketItemList[index]);
+                            return CardItem(basketItemList[index], index);
                           }, childCount: basketItemList.length),
                         );
                       }))
@@ -96,9 +97,12 @@ class CardScreen extends StatelessWidget {
                                 .read<BasketBloc>()
                                 .add(BasketPaymentRequestEvent());
                           },
-                          child: Text((state.basketFinalPrice == 0)
-                              ? 'سبد خرید شما خالیه '
-                              : '${state.basketFinalPrice}')),
+                          child: Text(
+                            (state.basketFinalPrice == 0)
+                                ? 'سبد خرید شما خالیه '
+                                : 'پرداخت مبلغ : ${state.basketFinalPrice.convertToPrice()} ',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )),
                     ),
                   )
                 }
@@ -111,8 +115,10 @@ class CardScreen extends StatelessWidget {
 
 class CardItem extends StatelessWidget {
   final BasketItem basketItem;
+  final int index;
   const CardItem(
-    this.basketItem, {
+    this.basketItem,
+    this.index, {
     Key? key,
   }) : super(key: key);
 
@@ -194,34 +200,42 @@ class CardItem extends StatelessWidget {
                         Wrap(
                           spacing: 8,
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: CustomColors.red, width: 1),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
+                            GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<BasketBloc>()
+                                    .add(BasketRemoveProductEvent(index));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: CustomColors.red, width: 1),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
                                 ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 2, bottom: 2, right: 8),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Text('حذف',
-                                        textDirection: TextDirection.rtl,
-                                        style: TextStyle(
-                                            fontFamily: 'sm',
-                                            fontSize: 12,
-                                            color: CustomColors.red)),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Image.asset('assets/images/icon_trash.png')
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 2, bottom: 2, right: 8),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Text('حذف',
+                                          textDirection: TextDirection.rtl,
+                                          style: TextStyle(
+                                              fontFamily: 'sm',
+                                              fontSize: 12,
+                                              color: CustomColors.red)),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      Image.asset(
+                                          'assets/images/icon_trash.png')
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -265,7 +279,7 @@ class CardItem extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  '${basketItem.realPrice}',
+                  '${basketItem.realPrice.convertToPrice()}',
                   style: TextStyle(fontFamily: 'sb', fontSize: 16),
                 ),
               ],
