@@ -15,6 +15,7 @@ import 'package:apple_shop/data/repository/category_repository.dart';
 import 'package:apple_shop/data/repository/comment_repository.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/data/repository/product_repository.dart';
+import 'package:apple_shop/util/dio_provider.dart';
 import 'package:apple_shop/util/pyament_handler.dart';
 import 'package:apple_shop/util/url_handler.dart';
 import 'package:dio/dio.dart';
@@ -37,8 +38,7 @@ Future<void> _initComponents() async {
   locator.registerSingleton<UrlHandler>(UrlLauncher());
   locator
       .registerSingleton<PaymentHandler>(ZarinpalPaymentHandler(locator.get()));
-  locator.registerSingleton<Dio>(
-      Dio(BaseOptions(baseUrl: 'http://startflutter.ir/api/')));
+  locator.registerSingleton<Dio>(DioProvider().createDio());
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
 }
