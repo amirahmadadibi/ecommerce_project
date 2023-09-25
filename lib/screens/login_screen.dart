@@ -2,6 +2,8 @@ import 'package:apple_shop/bloc/authentication/auth_bloc.dart';
 import 'package:apple_shop/bloc/authentication/auth_event.dart';
 import 'package:apple_shop/bloc/authentication/auth_state.dart';
 import 'package:apple_shop/constants/colors.dart';
+import 'package:apple_shop/main.dart';
+import 'package:apple_shop/screens/dashbord_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -104,6 +106,13 @@ class LoginScreen extends StatelessWidget {
                     ),
                     BlocBuilder<AuthBloc, AuthState>(
                         builder: ((context, state) {
+                      if (state is AuthResponseState) {
+                        state.reponse.fold((l) {}, (r) {
+                          globalNavigatorKey.currentState?.push(
+                              MaterialPageRoute(
+                                  builder: (context) => DashBoardScreen()));
+                        });
+                      }
                       if (state is AuthInitiateState) {
                         return ElevatedButton(
                           style: ElevatedButton.styleFrom(

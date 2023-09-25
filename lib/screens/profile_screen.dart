@@ -1,7 +1,11 @@
+import 'package:apple_shop/bloc/authentication/auth_bloc.dart';
+import 'package:apple_shop/screens/login_screen.dart';
+import 'package:apple_shop/util/auth_manager.dart';
 import 'package:apple_shop/widgets/category_icon_item_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants/colors.dart';
 
@@ -45,6 +49,18 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  AuthManager.logout();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return BlocProvider(
+                      create: (context) => AuthBloc(),
+                      child: LoginScreen(),
+                    );
+                  }));
+                },
+                child: Text('خروج')),
             const Text(
               'امیراحمدادیبی',
               style: TextStyle(fontFamily: 'sb', fontSize: 16),
