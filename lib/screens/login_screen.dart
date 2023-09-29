@@ -106,13 +106,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     BlocBuilder<AuthBloc, AuthState>(
                         builder: ((context, state) {
-                      if (state is AuthResponseState) {
-                        state.reponse.fold((l) {}, (r) {
-                          globalNavigatorKey.currentState?.push(
-                              MaterialPageRoute(
-                                  builder: (context) => DashBoardScreen()));
-                        });
-                      }
+           
                       if (state is AuthInitiateState) {
                         return ElevatedButton(
                           style: ElevatedButton.styleFrom(

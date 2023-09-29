@@ -1,4 +1,7 @@
 import 'package:apple_shop/bloc/authentication/auth_bloc.dart';
+import 'package:apple_shop/bloc/authentication/auth_state.dart';
+import 'package:apple_shop/main.dart';
+import 'package:apple_shop/screens/dashbord_screen.dart';
 import 'package:apple_shop/screens/login_screen.dart';
 import 'package:apple_shop/util/auth_manager.dart';
 import 'package:apple_shop/widgets/category_icon_item_chip.dart';
@@ -55,7 +58,19 @@ class ProfileScreen extends StatelessWidget {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return BlocProvider(
-                      create: (context) => AuthBloc(),
+                      create: (context) {
+                        var authBloc = AuthBloc();
+                        authBloc.stream.forEach((state) {
+                            if (state is AuthResponseState) {
+                              state.reponse.fold((l) {}, (r) {
+                                globalNavigatorKey.currentState?.pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => DashBoardScreen()));
+                              });
+                            }
+                        });
+                        return authBloc;
+                      },
                       child: LoginScreen(),
                     );
                   }));
