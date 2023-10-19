@@ -1,5 +1,6 @@
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/util/api_exception.dart';
+import 'package:apple_shop/util/auth_manager.dart';
 import 'package:apple_shop/util/dio_provider.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -39,6 +40,7 @@ class AuthenticationRemote implements IAuthenticationDatasource {
         'password': password,
       });
       if (response.statusCode == 200) {
+        AuthManager.saveId(response.data?['record']['id']);
         return response.data?['token'];
       }
     } on DioError catch (ex) {
