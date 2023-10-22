@@ -24,6 +24,9 @@ class AuthenticationRemote implements IAuthenticationDatasource {
         'password': password,
         'passwordConfirm': passwordConfirm
       });
+      if (response.statusCode == 200) {
+        AuthManager.saveId(response.data?['id']);
+      }
     } on DioError catch (ex) {
       throw ApiException(ex.response?.statusCode, ex.response?.data['message']);
     } catch (ex) {

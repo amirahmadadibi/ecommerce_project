@@ -4,15 +4,17 @@ import 'package:apple_shop/bloc/authentication/auth_state.dart';
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/main.dart';
 import 'package:apple_shop/screens/dashbord_screen.dart';
-import 'package:apple_shop/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({super.key});
 
-  final _usernameTextController = TextEditingController(text: 'amirahmad');
+  final _usernameTextController =
+      TextEditingController(text: 'amira2323/asd213@##pmad');
   final _passwordTextController = TextEditingController(text: '12345678');
+  final _passwordConfirmTextController =
+      TextEditingController(text: '12345678');
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +107,32 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
+                    TextField(
+                      controller: _passwordConfirmTextController,
+                      decoration: const InputDecoration(
+                        labelText: 'تکرار رمز عبور',
+                        labelStyle: TextStyle(
+                            fontFamily: 'sm',
+                            fontSize: 18,
+                            color: Colors.black),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                          borderSide: BorderSide(color: Colors.black, width: 3),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                          borderSide:
+                              BorderSide(color: CustomColors.blue, width: 3),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     BlocBuilder<AuthBloc, AuthState>(
                         builder: ((context, state) {
                       if (state is AuthInitiateState) {
@@ -117,10 +145,12 @@ class LoginScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20))),
                           onPressed: () {
                             BlocProvider.of<AuthBloc>(context).add(
-                                AuthLoginRequest(_usernameTextController.text,
-                                    _passwordTextController.text));
+                                AuthRegisterRequest(
+                                    _usernameTextController.text,
+                                    _passwordTextController.text,
+                                    _passwordConfirmTextController.text));
                           },
-                          child: Text('ورود به حساب کاربری'),
+                          child: Text('ثبت نام'),
                         );
                       }
 
@@ -140,31 +170,6 @@ class LoginScreen extends StatelessWidget {
 
                       return Text('خطای نا مشخص !');
                     })),
-                    Spacer(),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return BlocProvider(
-                              create: (context) {
-                                var authBloc = AuthBloc();
-                                authBloc.stream.forEach((state) {
-                                  if (state is AuthResponseState) {
-                                    state.reponse.fold((l) {}, (r) {
-                                      globalNavigatorKey.currentState
-                                          ?.pushReplacement(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DashBoardScreen()));
-                                    });
-                                  }
-                                });
-                                return authBloc;
-                              },
-                              child: RegisterScreen(),
-                            );
-                          }));
-                        },
-                        child: Text('اگر حساب کاربری ندارید ثبت نام کنید'))
                   ],
                 ),
               ),

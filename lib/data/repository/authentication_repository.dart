@@ -19,7 +19,7 @@ class AuthencticationRepository extends IAuthRepository {
   Future<Either<String, String>> register(
       String username, String password, String passwordConfirm) async {
     try {
-      await _datasource.register('amirhmad801', '12345678', '12345678');
+      await _datasource.register(username, password, passwordConfirm);
       return right('ثبت نام انجام شد!');
     } on ApiException catch (ex) {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');
