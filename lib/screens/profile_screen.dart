@@ -57,25 +57,7 @@ class ProfileScreen extends StatelessWidget {
                   AuthManager.logout();
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return BlocProvider(
-                      create: (context) {
-                        var authBloc = AuthBloc();
-                        authBloc.stream.forEach((state) {
-                          if (state is AuthResponseState) {
-                            state.reponse.fold((l) {}, (r) {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => DashBoardScreen()));
-                              //   globalNavigatorKey.currentState?.pushReplacement(
-                              //       MaterialPageRoute(
-                              //           builder: (context) => DashBoardScreen())); 
-                            });
-                          }
-                        });
-                        return authBloc;
-                      },
-                      child: LoginScreen(),
-                    );
+                    return LoginScreen();
                   }));
                 },
                 child: Text('خروج')),

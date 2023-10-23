@@ -41,6 +41,7 @@ Widget _getHomeScreenContent(HomeState state, BuildContext context) {
       },
       child: CustomScrollView(
         slivers: [
+          const SliverPadding(padding: EdgeInsets.only(top: 24)),
           const _getSearchBox(),
           state.bannerList.fold((exceptionMessage) {
             return SliverToBoxAdapter(child: Text(exceptionMessage));
@@ -64,7 +65,8 @@ Widget _getHomeScreenContent(HomeState state, BuildContext context) {
             return SliverToBoxAdapter(child: Text(exceptionMessage));
           }, (productList) {
             return _getMostViewedProduct(productList);
-          })
+          }),
+          const SliverPadding(padding: EdgeInsets.only(top: 24)),
         ],
       ),
     );
@@ -74,8 +76,6 @@ Widget _getHomeScreenContent(HomeState state, BuildContext context) {
     );
   }
 }
-
-
 
 class _getMostViewedProduct extends StatelessWidget {
   final List<Product> productList;
