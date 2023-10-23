@@ -19,157 +19,147 @@ class LoginScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: CustomColors.blue,
-        body: Column(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/icon_application.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    'اپل شاپ',
-                    style: TextStyle(
-                        fontFamily: 'sb', fontSize: 24, color: Colors.white),
-                  )
-                ],
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 60,
               ),
-            ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
+              Container(
+                  height: 200,
+                  width: 200,
+                  child: Image.asset('assets/images/login_photo.jpg')),
+              const SizedBox(
+                height: 60,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(24),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
-                      controller: _usernameTextController,
-                      decoration: const InputDecoration(
-                        labelText: 'نام کاربری',
-                        labelStyle: TextStyle(
-                            fontFamily: 'sm',
-                            fontSize: 18,
-                            color: Colors.black),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          borderSide: BorderSide(color: Colors.black, width: 3),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          borderSide:
-                              BorderSide(color: CustomColors.blue, width: 3),
-                        ),
-                      ),
+                    Text(
+                      'نام کاربری :',
+                      style: TextStyle(fontFamily: 'dana', fontSize: 16),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    TextField(
-                      controller: _passwordTextController,
-                      decoration: const InputDecoration(
-                        labelText: 'رمز عبور',
-                        labelStyle: TextStyle(
-                            fontFamily: 'sm',
-                            fontSize: 18,
-                            color: Colors.black),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          borderSide: BorderSide(color: Colors.black, width: 3),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          borderSide:
-                              BorderSide(color: CustomColors.blue, width: 3),
+                    Container(
+                      color: Colors.grey[300],
+                      child: TextField(
+                        controller: _usernameTextController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          labelStyle: TextStyle(
+                              fontFamily: 'sm',
+                              fontSize: 18,
+                              color: Colors.black),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    BlocBuilder<AuthBloc, AuthState>(
-                        builder: ((context, state) {
-                      if (state is AuthInitiateState) {
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              textStyle:
-                                  TextStyle(fontFamily: 'sb', fontSize: 18),
-                              minimumSize: Size(200, 48),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20))),
-                          onPressed: () {
-                            BlocProvider.of<AuthBloc>(context).add(
-                                AuthLoginRequest(_usernameTextController.text,
-                                    _passwordTextController.text));
-                          },
-                          child: Text('ورود به حساب کاربری'),
-                        );
-                      }
-
-                      if (state is AuthLoadingState) {
-                        return CircularProgressIndicator();
-                      }
-
-                      if (state is AuthResponseState) {
-                        Text widget = Text('');
-                        state.reponse.fold((l) {
-                          widget = Text(l);
-                        }, (r) {
-                          widget = Text(r);
-                        });
-                        return widget;
-                      }
-
-                      return Text('خطای نا مشخص !');
-                    })),
-                    Spacer(),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return BlocProvider(
-                              create: (context) {
-                                var authBloc = AuthBloc();
-                                authBloc.stream.forEach((state) {
-                                  if (state is AuthResponseState) {
-                                    state.reponse.fold((l) {}, (r) {
-                                      globalNavigatorKey.currentState
-                                          ?.pushReplacement(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DashBoardScreen()));
-                                    });
-                                  }
-                                });
-                                return authBloc;
-                              },
-                              child: RegisterScreen(),
-                            );
-                          }));
-                        },
-                        child: Text('اگر حساب کاربری ندارید ثبت نام کنید'))
+                    )
                   ],
                 ),
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'رمز عبور:',
+                      style: TextStyle(fontFamily: 'dana', fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      color: Colors.grey[300],
+                      child: TextField(
+                        controller: _passwordTextController,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          labelStyle: TextStyle(
+                              fontFamily: 'sm',
+                              fontSize: 18,
+                              color: Colors.black),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              BlocBuilder<AuthBloc, AuthState>(builder: ((context, state) {
+                if (state is AuthInitiateState) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(fontFamily: 'dana', fontSize: 20),
+                      backgroundColor: Colors.blue[700],
+                      minimumSize: Size(200, 48),
+                    ),
+                    onPressed: () {
+                      BlocProvider.of<AuthBloc>(context).add(AuthLoginRequest(
+                          _usernameTextController.text,
+                          _passwordTextController.text));
+                    },
+                    child: Text('ورود به حساب کاربری'),
+                  );
+                }
+
+                if (state is AuthLoadingState) {
+                  return CircularProgressIndicator();
+                }
+
+                if (state is AuthResponseState) {
+                  Text widget = Text('');
+                  state.reponse.fold((l) {
+                    widget = Text(l);
+                  }, (r) {
+                    widget = Text(r);
+                  });
+                  return widget;
+                }
+
+                return Text('خطای نا مشخص !');
+              })),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return BlocProvider(
+                        create: (context) {
+                          var authBloc = AuthBloc();
+                          authBloc.stream.forEach((state) {
+                            if (state is AuthResponseState) {
+                              state.reponse.fold((l) {}, (r) {
+                                globalNavigatorKey.currentState
+                                    ?.pushReplacement(MaterialPageRoute(
+                                        builder: (context) =>
+                                            DashBoardScreen()));
+                              });
+                            }
+                          });
+                          return authBloc;
+                        },
+                        child: RegisterScreen(),
+                      );
+                    }));
+                  },
+                  child: Text(
+                    'اگر حساب کاربری ندارید ثبت نام کنید',
+                    style: TextStyle(fontFamily: 'dana', fontSize: 16),
+                  ))
+            ],
+          ),
         ),
       ),
     );
