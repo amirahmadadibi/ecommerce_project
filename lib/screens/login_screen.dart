@@ -124,7 +124,7 @@ class ViewContainer extends StatelessWidget {
                   //toast //snack //diaolg //navigate
                   if (state is AuthResponseState) {
                     state.reponse.fold((l) {}, (r) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => DashBoardScreen()));
                     });
                   }
@@ -167,7 +167,7 @@ class ViewContainer extends StatelessWidget {
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
+                          .pushReplacement(MaterialPageRoute(builder: (context) {
                         return RegisterScreen();
                       }));
                     },

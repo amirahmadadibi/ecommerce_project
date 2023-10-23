@@ -4,6 +4,7 @@ import 'package:apple_shop/bloc/authentication/auth_state.dart';
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/main.dart';
 import 'package:apple_shop/screens/dashbord_screen.dart';
+import 'package:apple_shop/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -156,7 +157,7 @@ class ViewContainer extends StatelessWidget {
                 BlocConsumer<AuthBloc, AuthState>(listener: ((context, state) {
                   if (state is AuthResponseState) {
                     state.reponse.fold((l) {}, (r) {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => DashBoardScreen()));
                     });
                   }
@@ -195,6 +196,20 @@ class ViewContainer extends StatelessWidget {
 
                   return Text('خطای نا مشخص !');
                 })),
+                const SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) {
+                        return LoginScreen();
+                      }));
+                    },
+                    child: Text(
+                      'اگر حساب کاربری دارید وارد شوید',
+                      style: TextStyle(fontFamily: 'dana', fontSize: 16),
+                    ))
               ],
             ),
           ),
