@@ -123,7 +123,20 @@ class ViewContainer extends StatelessWidget {
                   //logic
                   //toast //snack //diaolg //navigate
                   if (state is AuthResponseState) {
-                    state.reponse.fold((l) {}, (r) {
+                    state.reponse.fold((l) {
+                      _usernameTextController.text = '';
+                      _passwordTextController.text = '';
+                      var snackbar = SnackBar(
+                        content: Text(
+                          l,
+                          style: TextStyle(fontFamily: 'dana', fontSize: 14),
+                        ),
+                        backgroundColor: Colors.black,
+                        behavior: SnackBarBehavior.floating,
+                        duration: Duration(seconds: 1),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    }, (r) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => DashBoardScreen()));
                     });
@@ -150,9 +163,22 @@ class ViewContainer extends StatelessWidget {
                   }
 
                   if (state is AuthResponseState) {
-                    Text widget = Text('');
+                    Widget widget = Text('');
                     state.reponse.fold((l) {
-                      widget = Text(l);
+                      widget = ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          textStyle:
+                              TextStyle(fontFamily: 'dana', fontSize: 20),
+                          backgroundColor: Colors.blue[700],
+                          minimumSize: Size(200, 48),
+                        ),
+                        onPressed: () {
+                          BlocProvider.of<AuthBloc>(context).add(
+                              AuthLoginRequest(_usernameTextController.text,
+                                  _passwordTextController.text));
+                        },
+                        child: Text('ورود به حساب کاربری'),
+                      );
                     }, (r) {
                       widget = Text(r);
                     });
@@ -166,8 +192,8 @@ class ViewContainer extends StatelessWidget {
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushReplacement(MaterialPageRoute(builder: (context) {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) {
                         return RegisterScreen();
                       }));
                     },

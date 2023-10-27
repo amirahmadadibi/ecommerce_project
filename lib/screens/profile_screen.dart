@@ -52,15 +52,6 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  AuthManager.logout();
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return LoginScreen();
-                  }));
-                },
-                child: Text('خروج')),
             const Text(
               'امیراحمدادیبی',
               style: TextStyle(fontFamily: 'sb', fontSize: 16),
@@ -92,6 +83,22 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
+            GestureDetector(
+              onTap: () {
+                AuthManager.logout();
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return LoginScreen();
+                }));
+              },
+              child: Text(
+                'خروج از حساب کاربری',
+                style: TextStyle(fontFamily: 'dana', color: Colors.red),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             const Text(
               'اپل شاپ',
               style: TextStyle(
