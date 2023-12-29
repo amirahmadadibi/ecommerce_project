@@ -20,7 +20,7 @@ class CategoryProductRemoteDatasource extends ICategoryProductDatasource {
 
       Response<dynamic> respones;
 
-      if (categoryId == 'dmr9eruk9ewr12o') {
+      if (categoryId == 'qnbj8d6b9lzzpn8') {
         respones = await _dio.get('collections/products/records');
       } else {
         respones = await _dio.get('collections/products/records',
