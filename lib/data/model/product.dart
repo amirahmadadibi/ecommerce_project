@@ -30,7 +30,7 @@ class Product {
     return Product(
         jsonObject['id'],
         jsonObject['collectionId'],
-        'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
+        'https://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
         jsonObject['description'],
         jsonObject['discount_price'],
         jsonObject['price'],

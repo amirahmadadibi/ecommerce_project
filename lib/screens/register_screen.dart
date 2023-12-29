@@ -12,7 +12,7 @@ class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
   final _usernameTextController =
-      TextEditingController(text: 'amira2323/asd213@##pmad');
+      TextEditingController(text: 'amirahmadaban31');
   final _passwordTextController = TextEditingController(text: '12345678');
   final _passwordConfirmTextController =
       TextEditingController(text: '12345678');
