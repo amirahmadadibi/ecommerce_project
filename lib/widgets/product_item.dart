@@ -7,6 +7,7 @@ import 'package:apple_shop/util/extenstions/double_extenstions.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 import '../constants/colors.dart';
@@ -52,6 +53,7 @@ class ProductItem extends StatelessWidget {
                   width: 98,
                   child: CachedImage(
                     imageUrl: product.thumbnail,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 Positioned(
