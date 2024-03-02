@@ -22,7 +22,7 @@ class Product {
       this.name,
       this.quantity,
       this.categoryId) {
-    realPrice = price + discountPrice;
+    realPrice = price - discountPrice;
     persent = ((price - realPrice!) / price) * 100;
   }
 
